@@ -1,8 +1,8 @@
 # Shapleypy
 A python library for cooperative game theory
 
-[![PyPI - Version](https://img.shields.io/pypi/v/shapleypy.svg)](https://pypi.org/project/shapleypy)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/shapleypy.svg)](https://pypi.org/project/shapleypy)
+[![PyPI - Version](https://img.shields.io/pypi/v/Shapleypy.svg)](https://pypi.org/project/Shapleypy)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Shapleypy.svg)](https://pypi.org/project/Shapleypy)
 
 -----
 
@@ -19,4 +19,4 @@ pip install shapleypy
 
 ## License
 
-`shapleypy` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+`Shapleypy` is distributed under the terms of the [GPL-3.0](https://spdx.org/licenses/GPL-3.0-or-later.html) license.
