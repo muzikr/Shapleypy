@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "Shapleypy"
+name = "shapleypy"
 dynamic = ["version"]
 description = 'Python library for cooperative game theory.'
 readme = "README.md"
@@ -128,7 +128,7 @@ unfixable = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["Shapleypy"]
+known-first-party = ["shapleypy"]
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
@@ -138,16 +138,16 @@ ban-relative-imports = "all"
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
 [tool.coverage.run]
-source_pkgs = ["Shapleypy", "tests"]
+source_pkgs = ["shapleypy", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/Shapleypy/__about__.py",
+  "src/shapleypy/__about__.py",
 ]
 
 [tool.coverage.paths]
-shapleypy = ["src/Shapleypy", "*/Shapleypy/src/Shapleypy"]
-tests = ["tests", "*/Shapleypy/tests"]
+shapleypy = ["src/shapleypy", "*/shapleypy/src/shapleypy"]
+tests = ["tests", "*/shapleypy/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
