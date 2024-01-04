@@ -7,7 +7,9 @@ import numpy as np
 from shapleypy.constants import (
     COALITION_NUMBER_OF_PLAYERS_ERROR,
     MAX_PLAYER,
+    MAXIMUM_NUMBER_OF_PLAYERS,
     MIN_PLAYER,
+    MINIMUM_NUMBER_OF_PLAYERS,
 )
 from shapleypy.protocols import Player
 
@@ -50,7 +52,7 @@ class Coalition:
         players = set(players)
         id = np.uintc(0)
         for player in players:
-            if player >= MAX_PLAYER + 1 or player <= MIN_PLAYER - 1:
+            if player > MAX_PLAYER or player < MIN_PLAYER:
                 raise ValueError(COALITION_NUMBER_OF_PLAYERS_ERROR)
             id |= 1 << player
         return Coalition(id)
@@ -70,7 +72,10 @@ class Coalition:
     @staticmethod
     def grand_coalition(n_players: int) -> Coalition:
         """Return the grand coalition of n_players"""
-        if n_players >= MAX_PLAYER + 1 or n_players <= MIN_PLAYER - 1:
+        if (
+            n_players > MAXIMUM_NUMBER_OF_PLAYERS
+            or n_players < MINIMUM_NUMBER_OF_PLAYERS
+        ):
             raise ValueError(COALITION_NUMBER_OF_PLAYERS_ERROR)
         return Coalition((1 << n_players) - 1)
 
