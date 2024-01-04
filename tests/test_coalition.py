@@ -4,6 +4,27 @@ import pytest
 from shapleypy.coalition import Coalition
 
 
+@pytest.fixture
+def all_coalitions_of_4_players():
+    return [
+        Coalition(0b0001),
+        Coalition(0b0010),
+        Coalition(0b0011),
+        Coalition(0b0100),
+        Coalition(0b0101),
+        Coalition(0b0110),
+        Coalition(0b0111),
+        Coalition(0b1000),
+        Coalition(0b1001),
+        Coalition(0b1010),
+        Coalition(0b1011),
+        Coalition(0b1100),
+        Coalition(0b1101),
+        Coalition(0b1110),
+        Coalition(0b1111),
+    ]
+
+
 def test_repr():
     assert repr(Coalition(0b1010)) == "Coalition(id=1010)"
 
@@ -52,52 +73,24 @@ def test_contains():
 def test_grand_coalition():
     assert Coalition.grand_coalition(4) == Coalition(0b1111)
     assert Coalition.grand_coalition(32) == Coalition(np.uintc(4_294_967_295))
+    assert Coalition.grand_coalition(1) == Coalition(0b1)
     with pytest.raises(ValueError):
         Coalition.grand_coalition(33)
     with pytest.raises(ValueError):
         Coalition.grand_coalition(0)
 
 
-def test_all_subcoalitions():
+def test_all_subcoalitions(all_coalitions_of_4_players):
     assert list(Coalition(0b1010).all_subcoalitions()) == [
         Coalition(0b0010),
         Coalition(0b1000),
         Coalition(0b1010),
     ]
-    assert list(Coalition.grand_coalition(4).all_subcoalitions()) == [
-        Coalition(0b0001),
-        Coalition(0b0010),
-        Coalition(0b0011),
-        Coalition(0b0100),
-        Coalition(0b0101),
-        Coalition(0b0110),
-        Coalition(0b0111),
-        Coalition(0b1000),
-        Coalition(0b1001),
-        Coalition(0b1010),
-        Coalition(0b1011),
-        Coalition(0b1100),
-        Coalition(0b1101),
-        Coalition(0b1110),
-        Coalition(0b1111),
-    ]
+    assert (
+        list(Coalition.grand_coalition(4).all_subcoalitions())
+        == all_coalitions_of_4_players
+    )
 
 
-def test_all_coalitions():
-    assert list(Coalition.all_coalitions(4)) == [
-        Coalition(0b0001),
-        Coalition(0b0010),
-        Coalition(0b0011),
-        Coalition(0b0100),
-        Coalition(0b0101),
-        Coalition(0b0110),
-        Coalition(0b0111),
-        Coalition(0b1000),
-        Coalition(0b1001),
-        Coalition(0b1010),
-        Coalition(0b1011),
-        Coalition(0b1100),
-        Coalition(0b1101),
-        Coalition(0b1110),
-        Coalition(0b1111),
-    ]
+def test_all_coalitions(all_coalitions_of_4_players):
+    assert list(Coalition.all_coalitions(4)) == all_coalitions_of_4_players
