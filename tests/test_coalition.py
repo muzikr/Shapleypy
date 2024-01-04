@@ -45,14 +45,22 @@ def test_hash():
 def test_from_players():
     assert Coalition.from_players([1, 3]) == Coalition(0b1010)
     assert Coalition.from_players(1) == Coalition(0b10)
+    assert Coalition.from_players(0) == Coalition(0b1)
+    assert Coalition.from_players(31) == Coalition(
+        0b10000000000000000000000000000000
+    )
     with pytest.raises(ValueError):
-        Coalition.from_players(33)
+        Coalition.from_players(32)
     with pytest.raises(ValueError):
-        Coalition.from_players(0)
+        Coalition.from_players(-1)
 
 
 def test_get_players():
     assert list(Coalition(0b1010).get_players) == [1, 3]
+    assert list(Coalition(0b1).get_players) == [0]
+    assert list(Coalition(0b10000000000000000000000000000000).get_players) == [
+        31
+    ]
 
 
 def test_eq():
