@@ -47,7 +47,7 @@ class Coalition:
     @staticmethod
     def from_players(players: Iterable[Player] | Player) -> Coalition:
         """Create a coalition from a list of players or a single player"""
-        if isinstance(players, int):
+        if isinstance(players, Player):
             players = [players]
         players = set(players)
         id = np.uintc(0)
