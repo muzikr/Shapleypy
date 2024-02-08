@@ -78,6 +78,16 @@ all = [
   "typing",
 ]
 
+[tool.mypy]
+disallow_untyped_defs = true
+follow_imports = "normal"
+ignore_missing_imports = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+warn_no_return = true
+warn_unused_ignores = true
+
 [tool.black]
 target-version = ["py39"]
 line-length = 80
