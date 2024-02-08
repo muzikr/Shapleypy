@@ -7,7 +7,7 @@ name = "shapleypy"
 dynamic = ["version"]
 description = 'Python library for cooperative game theory.'
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 license = "GPL-3.0"
 keywords = []
 authors = [
@@ -16,11 +16,10 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -54,7 +53,7 @@ cov = [
 ]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.7", "3.8", "3.9", "3.10", "3.11"]
+python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.lint]
 detached = true
@@ -80,12 +79,12 @@ all = [
 ]
 
 [tool.black]
-target-version = ["py37"]
+target-version = ["py39"]
 line-length = 80
 skip-string-normalization = true
 
 [tool.ruff]
-target-version = "py37"
+target-version = "py39"
 line-length = 80
 select = [
   "A",
