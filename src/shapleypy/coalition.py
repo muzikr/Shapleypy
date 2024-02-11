@@ -15,8 +15,8 @@ from shapleypy.protocols import Player
 
 
 class Coalition:
-    def __init__(self, id: np.uintc) -> None:
-        self.id = id
+    def __init__(self, id: int) -> None:
+        self.id = np.uint32(id)
 
     def __repr__(self) -> str:
         return f"Coalition(id={np.binary_repr(self.id)})"
@@ -50,7 +50,7 @@ class Coalition:
         if isinstance(players, Player):
             players = [players]
         players = set(players)
-        id = np.uintc(0)
+        id = 0
         for player in players:
             if player > MAX_PLAYER or player < MIN_PLAYER:
                 raise ValueError(COALITION_NUMBER_OF_PLAYERS_ERROR)
@@ -60,7 +60,7 @@ class Coalition:
     @property
     def get_players(self) -> Iterable[Player]:
         """Return a list of players in the coalition"""
-        bit_map = self.id
+        bit_map = int(self.id)
         index = 0
 
         while bit_map:

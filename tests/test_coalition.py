@@ -1,4 +1,3 @@
-import numpy as np
 import pytest
 
 from shapleypy.coalition import Coalition
@@ -80,7 +79,7 @@ def test_contains() -> None:
 
 def test_grand_coalition() -> None:
     assert Coalition.grand_coalition(4) == Coalition(0b1111)
-    assert Coalition.grand_coalition(32) == Coalition(np.uintc(4_294_967_295))
+    assert Coalition.grand_coalition(32) == Coalition(4_294_967_295)
     assert Coalition.grand_coalition(1) == Coalition(0b1)
     with pytest.raises(ValueError):
         Coalition.grand_coalition(33)
