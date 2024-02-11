@@ -41,17 +41,21 @@ class Game:
         coalitions: Iterable[Coalition | Players] | None = None,
     ) -> Iterable[tuple[Coalition, Value]]:
         """Get the values of multiple coalitions."""
+        converted_coalitions = []
         if coalitions is None:
-            coalitions = list(Coalition.all_coalitions(self.number_of_players))
+            converted_coalitions = list(
+                Coalition.all_coalitions(self.number_of_players)
+            )
         else:
-            coalitions = [
+            converted_coalitions = [
                 Coalition.from_players(coalition)
                 if isinstance(coalition, list)
                 else coalition
                 for coalition in coalitions
             ]
         yield from (
-            (coalition, self.get_value(coalition)) for coalition in coalitions
+            (coalition, self.get_value(coalition))
+            for coalition in converted_coalitions
         )
 
     def _init_values(self) -> None:
