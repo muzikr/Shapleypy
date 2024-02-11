@@ -15,16 +15,16 @@ class Game:
         self._values: np.ndarray = np.zeros(2**number_of_players, dtype=Value)
         self._init_values()
 
-    def set_value(self, coalition: Coalition | Players, value: Value) -> None:
+    def set_value(
+        self, coalition: Coalition | Players, value: Value | float
+    ) -> None:
         """Set the value of a coalition."""
         if isinstance(coalition, Iterable):
             coalition = Coalition.from_players(coalition)
         self._values[coalition.id] = value
 
     def set_values(
-        self,
-        values: Iterable[tuple[Coalition, Value]]
-        | Iterable[tuple[Players, Value]],
+        self, values: Iterable[tuple[Coalition | Players, Value | float]]
     ) -> None:
         """Set the values of multiple coalitions."""
         for coalition, value in values:
@@ -38,7 +38,7 @@ class Game:
 
     def get_values(
         self,
-        coalitions: Coalitions | Iterable[Players] | None = None,
+        coalitions: Iterable[Coalition | Players] | None = None,
     ) -> Iterable[tuple[Coalition, Value]]:
         """Get the values of multiple coalitions."""
         if coalitions is None:
