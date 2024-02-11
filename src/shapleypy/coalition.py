@@ -37,7 +37,7 @@ class Coalition:
     def __hash__(self) -> int:
         return hash(self.id)
 
-    def __contains__(self, other: Player | Coalition) -> bool:
+    def __contains__(self, other: object) -> bool:
         if isinstance(other, Player):
             return bool(self.id & (1 << other))
         elif isinstance(other, Coalition):
