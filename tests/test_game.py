@@ -209,6 +209,7 @@ def test_eq(basic_values_for_game_of_three_coalition_form):
     game1 = Game(3)
     game2 = Game(3)
     assert game1 == game2
+    assert game1 != "hello"
     game2.set_value([1, 2], 1.0)
     assert game1 != game2
     game1.set_values(basic_values_for_game_of_three_coalition_form)

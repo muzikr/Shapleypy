@@ -74,6 +74,9 @@ class Game:
         return to_return
 
     def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Game):
+            return False
+
         if self.number_of_players != other.number_of_players:
             return False
 
