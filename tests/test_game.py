@@ -10,26 +10,26 @@ def basic_values_for_game_of_three_coalition_form() -> (
     list[tuple[Coalition, float]]
 ):
     return [
-        (Coalition.from_players([0]), 1),
-        (Coalition.from_players([1]), 2),
-        (Coalition.from_players([0, 1]), 3),
-        (Coalition.from_players([2]), 4),
-        (Coalition.from_players([0, 2]), 5),
-        (Coalition.from_players([1, 2]), 6),
-        (Coalition.from_players([0, 1, 2]), 7),
+        (Coalition.from_players([0]), 1.0),
+        (Coalition.from_players([1]), 2.0),
+        (Coalition.from_players([0, 1]), 3.0),
+        (Coalition.from_players([2]), 4.0),
+        (Coalition.from_players([0, 2]), 5.0),
+        (Coalition.from_players([1, 2]), 6.0),
+        (Coalition.from_players([0, 1, 2]), 7.0),
     ]
 
 
 @pytest.fixture
 def basic_values_for_game_of_three_list_form() -> list[tuple[list[int], float]]:
     return [
-        ([0], 1),
-        ([1], 2),
-        ([0, 1], 3),
-        ([2], 4),
-        ([0, 2], 5),
-        ([1, 2], 6),
-        ([0, 1, 2], 7),
+        ([0], 1.0),
+        ([1], 2.0),
+        ([0, 1], 3.0),
+        ([2], 4.0),
+        ([0, 2], 5.0),
+        ([1, 2], 6.0),
+        ([0, 1, 2], 7.0),
     ]
 
 
@@ -182,9 +182,12 @@ def set_value_out_of_bounds() -> None:
 def set_values_out_of_bounds() -> None:
     game = Game(3)
     with pytest.raises(IndexError):
-        game.set_values({Coalition.from_players([0, 1, 2, 3]): 1.0})
-    with pytest.raises(IndexError):
-        game.set_values({Coalition.from_players([0, 1, 2, 3]): 1.0})
+        game.set_values(
+            [
+                (Coalition.from_players(0), 6.0),
+                (Coalition.from_players([0, 1, 2, 3]), 1.0),
+            ]
+        )
 
 
 def test_get_value_out_of_bounds() -> None:
