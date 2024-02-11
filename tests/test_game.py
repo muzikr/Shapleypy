@@ -6,7 +6,9 @@ from shapleypy.game import Game
 
 
 @pytest.fixture
-def basic_values_for_game_of_three_coalition_form():
+def basic_values_for_game_of_three_coalition_form() -> (
+    list[tuple[Coalition, float]]
+):
     return [
         (Coalition.from_players([0]), 1),
         (Coalition.from_players([1]), 2),
@@ -19,7 +21,7 @@ def basic_values_for_game_of_three_coalition_form():
 
 
 @pytest.fixture
-def basic_values_for_game_of_three_str_form():
+def basic_values_for_game_of_three_list_form() -> list[tuple[list[int], float]]:
     return [
         ([0], 1),
         ([1], 2),
@@ -31,7 +33,7 @@ def basic_values_for_game_of_three_str_form():
     ]
 
 
-def test_init():
+def test_init() -> None:
     game = Game(3)
     assert game.number_of_players == 3
     assert game._values.shape == (8,)
@@ -39,7 +41,7 @@ def test_init():
     assert all(np.isnan(x) for x in game._values[1:])
 
 
-def test_str():
+def test_str() -> None:
     game = Game(3)
     assert (
         str(game)
@@ -56,7 +58,7 @@ def test_str():
     )
 
 
-def test_repr():
+def test_repr() -> None:
     game = Game(3)
     assert (
         repr(game)
@@ -73,7 +75,7 @@ def test_repr():
     )
 
 
-def test_set_value():
+def test_set_value() -> None:
     game = Game(3)
     game.set_value([1, 2], 1.0)
     assert game._values[0b110] == 1.0
@@ -82,8 +84,10 @@ def test_set_value():
 
 
 def test_set_values_from_coalition_form(
-    basic_values_for_game_of_three_coalition_form,
-):
+    basic_values_for_game_of_three_coalition_form: list[
+        tuple[Coalition, float]
+    ],
+) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_coalition_form)
     assert all(
@@ -92,16 +96,18 @@ def test_set_values_from_coalition_form(
     )
 
 
-def test_set_values_from_str_form(basic_values_for_game_of_three_str_form):
+def test_set_values_from_str_form(
+    basic_values_for_game_of_three_list_form: list[tuple[list[int], float]]
+) -> None:
     game = Game(3)
-    game.set_values(basic_values_for_game_of_three_str_form)
+    game.set_values(basic_values_for_game_of_three_list_form)
     assert all(
         a == b
         for a, b in zip(game._values, [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0])
     )
 
 
-def test_get_value():
+def test_get_value() -> None:
     game = Game(3)
     game.set_value([1, 2], 1.0)
     assert game.get_value([1, 2]) == 1.0
@@ -111,7 +117,9 @@ def test_get_value():
     assert game.get_value(Coalition.from_players([])) == 0.0
 
 
-def test_get_values(basic_values_for_game_of_three_coalition_form):
+def test_get_values(
+    basic_values_for_game_of_three_coalition_form: list[tuple[Coalition, float]]
+) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_coalition_form)
     assert (
@@ -163,7 +171,7 @@ def test_get_values(basic_values_for_game_of_three_coalition_form):
     ]
 
 
-def set_value_out_of_bounds():
+def set_value_out_of_bounds() -> None:
     game = Game(3)
     with pytest.raises(IndexError):
         game.set_value([0, 1, 2, 3], 1.0)
@@ -171,7 +179,7 @@ def set_value_out_of_bounds():
         game.set_value(Coalition.from_players([0, 1, 2, 3]), 1.0)
 
 
-def set_values_out_of_bounds():
+def set_values_out_of_bounds() -> None:
     game = Game(3)
     with pytest.raises(IndexError):
         game.set_values({Coalition.from_players([0, 1, 2, 3]): 1.0})
@@ -179,7 +187,7 @@ def set_values_out_of_bounds():
         game.set_values({Coalition.from_players([0, 1, 2, 3]): 1.0})
 
 
-def test_get_value_out_of_bounds():
+def test_get_value_out_of_bounds() -> None:
     game = Game(3)
     with pytest.raises(IndexError):
         game.get_value([0, 1, 2, 3])
@@ -187,7 +195,7 @@ def test_get_value_out_of_bounds():
         game.get_value(Coalition.from_players([0, 1, 2, 3]))
 
 
-def test_get_values_out_of_bounds():
+def test_get_values_out_of_bounds() -> None:
     game = Game(3)
 
     with pytest.raises(IndexError):
@@ -205,7 +213,9 @@ def test_get_values_out_of_bounds():
         list(game.get_values([[0, 1, 2, 3], [0, 2], [1, 2], [0, 1, 2]]))
 
 
-def test_eq(basic_values_for_game_of_three_coalition_form):
+def test_eq(
+    basic_values_for_game_of_three_coalition_form: list[tuple[Coalition, float]]
+) -> None:
     game1 = Game(3)
     game2 = Game(3)
     assert game1 == game2
