@@ -1,4 +1,4 @@
-from typing import Iterable, List, Tuple
+from collections.abc import Iterable
 
 import numpy as np
 
@@ -23,8 +23,8 @@ class Game:
 
     def set_values(
         self,
-        values: Iterable[Tuple[Coalition, Value]]
-        | Iterable[Tuple[Players, Value]],
+        values: Iterable[tuple[Coalition, Value]]
+        | Iterable[tuple[Players, Value]],
     ) -> None:
         """Set the values of multiple coalitions."""
         for coalition, value in values:
@@ -39,14 +39,14 @@ class Game:
     def get_values(
         self,
         coalitions: Coalitions | Iterable[Players] | None = None,
-    ) -> Iterable[Tuple[Coalition, Value]]:
+    ) -> Iterable[tuple[Coalition, Value]]:
         """Get the values of multiple coalitions."""
         if coalitions is None:
             coalitions = list(Coalition.all_coalitions(self.number_of_players))
         else:
             coalitions = [
                 Coalition.from_players(coalition)
-                if isinstance(coalition, List)
+                if isinstance(coalition, list)
                 else coalition
                 for coalition in coalitions
             ]
