@@ -49,7 +49,7 @@ class Game:
         else:
             converted_coalitions = [
                 Coalition.from_players(coalition)
-                if isinstance(coalition, list)
+                if isinstance(coalition, Iterable)
                 else coalition
                 for coalition in coalitions
             ]
