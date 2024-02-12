@@ -50,9 +50,11 @@ class Game:
             )
         else:
             converted_coalitions = [
-                Coalition.from_players(coalition)
-                if isinstance(coalition, Iterable)
-                else coalition
+                (
+                    Coalition.from_players(coalition)
+                    if isinstance(coalition, Iterable)
+                    else coalition
+                )
                 for coalition in coalitions
             ]
         yield from (
