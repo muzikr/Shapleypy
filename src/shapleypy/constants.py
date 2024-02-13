@@ -8,3 +8,6 @@ MIN_PLAYER = 0
 
 # Errors
 COALITION_NUMBER_OF_PLAYERS_ERROR = "Number of players must be between 1 and 32"
+LOADERS_MISSING_NUMBER_OF_PLAYERS_ERROR = (
+    "The file does not contain the number of players."
+)
