@@ -15,8 +15,11 @@ from shapleypy.protocols import Player
 
 
 class Coalition:
-    def __init__(self, id: int) -> None:
-        self.id = np.uint32(id)
+    def __init__(self, id: int | np.uint32) -> None:
+        if isinstance(id, int):
+            self.id = np.uint32(id)
+        elif isinstance(id, np.uint32):
+            self.id = id
 
     def __repr__(self) -> str:
         return f"Coalition(id={np.binary_repr(self.id)})"
