@@ -47,6 +47,42 @@ class Coalition:
             return (self.id & other.id) == other.id
         return False
 
+    def __add__(self, other: object) -> Coalition:
+        if isinstance(other, Player):
+            return Coalition(self.id | Coalition.from_players([other]).id)
+        elif isinstance(other, Coalition):
+            return Coalition(self.id | other.id)
+        elif isinstance(other, Iterable):
+            return Coalition(self.id | Coalition.from_players(other).id)
+        raise TypeError
+
+    def __sub__(self, other: object) -> Coalition:
+        if isinstance(other, Player):
+            return Coalition(self.id & ~Coalition.from_players([other]).id)
+        elif isinstance(other, Coalition):
+            return Coalition(self.id & ~other.id)
+        elif isinstance(other, Iterable):
+            return Coalition(self.id & ~Coalition.from_players(other).id)
+        raise TypeError
+
+    def __mul__(self, other: object) -> Coalition:
+        if isinstance(other, Player):
+            return Coalition(self.id & Coalition.from_players([other]).id)
+        elif isinstance(other, Coalition):
+            return Coalition(self.id & other.id)
+        elif isinstance(other, Iterable):
+            return Coalition(self.id & Coalition.from_players(other).id)
+        raise TypeError
+
+    def __truediv__(self, other: object) -> Coalition:
+        if isinstance(other, Player):
+            return Coalition(self.id ^ Coalition.from_players([other]).id)
+        elif isinstance(other, Coalition):
+            return Coalition(self.id ^ other.id)
+        elif isinstance(other, Iterable):
+            return Coalition(self.id ^ Coalition.from_players(other).id)
+        raise TypeError
+
     @staticmethod
     def from_players(players: Iterable[Player] | Player) -> Coalition:
         """Create a coalition from a list of players or a single player"""
