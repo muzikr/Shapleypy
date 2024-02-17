@@ -103,3 +103,39 @@ def test_all_subcoalitions(
 
 def test_all_coalitions(all_coalitions_of_4_players: list[Coalition]) -> None:
     assert list(Coalition.all_coalitions(4)) == all_coalitions_of_4_players
+
+
+def test_add() -> None:
+    assert Coalition(0b1010) + Coalition(0b0100) == Coalition(0b1110)
+    assert Coalition(0b1010) + [0, 2] == Coalition(0b1111)  # noqa RUF005
+    assert Coalition(0b1010) + 0 == Coalition(0b1011)
+    assert Coalition(0b1010) + Coalition(0b0010) == Coalition(0b1010)
+    with pytest.raises(TypeError):
+        Coalition(0b1010) + "s"
+
+
+def test_sub() -> None:
+    assert Coalition(0b1010) - Coalition(0b0100) == Coalition(0b1010)
+    assert Coalition(0b1010) - [3, 1] == Coalition(0b0000)
+    assert Coalition(0b1010) - 3 == Coalition(0b0010)
+    assert Coalition(0b1010) - Coalition(0b0010) == Coalition(0b1000)
+    with pytest.raises(TypeError):
+        Coalition(0b1010) - "s"
+
+
+def test_intersection() -> None:
+    assert Coalition(0b1010) * Coalition(0b0100) == Coalition(0b0000)
+    assert Coalition(0b1010) * [3, 0] == Coalition(0b1000)
+    assert Coalition(0b1010) * 3 == Coalition(0b1000)
+    assert Coalition(0b1010) * Coalition(0b0010) == Coalition(0b0010)
+    with pytest.raises(TypeError):
+        Coalition(0b1010) * "s"
+
+
+def test_symmetric_difference() -> None:
+    assert Coalition(0b1010) / Coalition(0b0100) == Coalition(0b1110)
+    assert Coalition(0b1010) / [3, 0] == Coalition(0b0011)
+    assert Coalition(0b1010) / 2 == Coalition(0b1110)
+    assert Coalition(0b1010) / Coalition(0b0010) == Coalition(0b1000)
+    with pytest.raises(TypeError):
+        Coalition(0b1010) / "s"
