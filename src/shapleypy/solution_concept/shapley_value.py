@@ -95,3 +95,13 @@ def shapley_value_of_game(
         yield _shapley_value_of_player(
             game, player, weights, n_fac, default_value
         )
+
+
+def shapley(
+    game: Game,
+    player: Player | None = None,
+    default_value: Value | float = DEFAULT_VALUE,
+) -> Value | Iterable[Value]:
+    if player is not None:
+        return shapley_value_of_player(game, player, default_value)
+    return shapley_value_of_game(game, default_value)
