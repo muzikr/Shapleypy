@@ -5,6 +5,7 @@ import pytest
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
 from shapleypy.solution_concept.shapley_value import (
+    shapley,
     shapley_value_of_game,
     shapley_value_of_player,
 )
@@ -84,3 +85,20 @@ def test_shapley_value_of_game_with_set_default_value(
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_with_missing_values)
     assert list(shapley_value_of_game(game, 5.0)) == [1.5, 1.5, 4.0]
+
+
+def test_shapley_function(
+    basic_values_for_game_of_three: list[tuple[Coalition, float]],
+    basic_values_for_game_of_three_with_missing_values: list[
+        tuple[Coalition, float]
+    ],
+) -> None:
+    game = Game(3)
+    game.set_values(basic_values_for_game_of_three)
+    assert list(shapley(game)) == [1.0, 2.0, 4.0]  # type: ignore
+    assert shapley(game, 0) == 1.0
+    assert shapley(game, 1) == 2.0
+    assert shapley(game, 2) == 4.0
+    game = Game(3)
+    game.set_values(basic_values_for_game_of_three_with_missing_values)
+    assert list(shapley(game, default_value=5.0)) == [1.5, 1.5, 4.0]  # type: ignore
