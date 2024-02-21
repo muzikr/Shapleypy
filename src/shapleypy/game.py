@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Iterable
 
 import numpy as np
@@ -48,9 +50,11 @@ class Game:
             )
         else:
             converted_coalitions = [
-                Coalition.from_players(coalition)
-                if isinstance(coalition, Iterable)
-                else coalition
+                (
+                    Coalition.from_players(coalition)
+                    if isinstance(coalition, Iterable)
+                    else coalition
+                )
                 for coalition in coalitions
             ]
         yield from (

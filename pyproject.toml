@@ -57,7 +57,7 @@ python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.types]
 extra-dependencies = [
-  "mypy>=1.0.0",
+  "mypy>=1.8.0",
 ]
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/ tests/}"
@@ -65,8 +65,8 @@ check = "mypy --install-types --non-interactive {args:src/ tests/}"
 [tool.hatch.envs.lint]
 detached = true
 dependencies = [
-  "black>=23.1.0",
-  "ruff>=0.0.243",
+  "black>=24.1.0",
+  "ruff>=0.2.1",
 ]
 [tool.hatch.envs.lint.scripts]
 style = [
