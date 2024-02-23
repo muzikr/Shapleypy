@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 from shapleypy.coalition import Coalition
+from shapleypy.constants import DEFAULT_VALUE
 from shapleypy.game import Game
 from shapleypy.solution_concept.shapley_value import (
     shapley,
@@ -71,10 +72,28 @@ def test_shapley_value_of_game_with_default_value_warning(
         tuple[Coalition, float]
     ]
 ) -> None:
+    """
+    If user did not set the default value parameter, he probably missed a
+    value and should get a warning.
+    """
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_with_missing_values)
     with pytest.warns(RuntimeWarning):
         list(shapley_value_of_game(game))
+
+
+def test_shapley_value_of_game_with_default_value_without_warning(
+    basic_values_for_game_of_three_with_missing_values: list[
+        tuple[Coalition, float]
+    ]
+) -> None:
+    """
+    If user set the default value parameter to the default value, he probably
+    knows what he is doing and should not get warining.
+    """
+    game = Game(3)
+    game.set_values(basic_values_for_game_of_three_with_missing_values)
+    assert list(shapley_value_of_game(game, DEFAULT_VALUE)) == [1.5, 1.5, 4.0]
 
 
 def test_shapley_value_of_game_with_set_default_value(
