@@ -1,3 +1,5 @@
+from shapleypy.protocols import Value
+
 # Allowed number of players in a game.
 MAXIMUM_NUMBER_OF_PLAYERS = 32
 MINIMUM_NUMBER_OF_PLAYERS = 1
@@ -7,7 +9,7 @@ MAX_PLAYER = 31
 MIN_PLAYER = 0
 
 # Default value for a coalition for solution concepts
-DEFAULT_VALUE = 0.0
+DEFAULT_VALUE = Value(0.0)
 
 # Errors
 COALITION_NUMBER_OF_PLAYERS_ERROR = "Number of players must be between 1 and 32"
