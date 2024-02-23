@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from collections.abc import Iterable
 from math import factorial
 from typing import Any
@@ -8,24 +7,10 @@ from typing import Any
 import numpy as np
 
 from shapleypy.coalition import Coalition
-from shapleypy.constants import DEFAULT_VALUE, DEFAULT_VALUE_WARNING
+from shapleypy.constants import DEFAULT_VALUE
 from shapleypy.game import Game
 from shapleypy.protocols import Player, Value
-
-
-def _check_values_of_coalitions(
-    values_array: np.ndarray[Any, np.dtype[Value]], default_value: Value | float
-) -> np.ndarray[Any, np.dtype[Value]]:
-    used_default_value = False
-    for i in range(len(values_array)):
-        if np.isnan(values_array[i]):
-            values_array[i] = default_value
-            used_default_value = True
-
-    if used_default_value and default_value == DEFAULT_VALUE:
-        warnings.warn(DEFAULT_VALUE_WARNING, RuntimeWarning, stacklevel=2)
-
-    return values_array
+from shapleypy.solution_concept._default_value import set_default_value
 
 
 def _get_weights(game: Game) -> np.ndarray[Any, np.dtype[Value]]:
@@ -62,10 +47,10 @@ def _shapley_value_of_player(
         [value for _, value in game.get_values(coalitions_with_player)]
     )
 
-    values_of_coalitions_without_player = _check_values_of_coalitions(
+    values_of_coalitions_without_player = set_default_value(
         values_of_coalitions_without_player, default_value
     )
-    values_of_coalitions_with_player = _check_values_of_coalitions(
+    values_of_coalitions_with_player = set_default_value(
         values_of_coalitions_with_player, default_value
     )
 

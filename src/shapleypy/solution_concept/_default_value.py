@@ -1,0 +1,28 @@
+from __future__ import annotations
+
+import warnings
+from typing import Any
+
+import numpy as np
+
+from shapleypy.constants import DEFAULT_VALUE, DEFAULT_VALUE_WARNING
+from shapleypy.protocols import Value
+
+
+def set_default_value(
+    values_array: np.ndarray[Any, np.dtype[Value]], default_value: Value | float
+) -> np.ndarray[Any, np.dtype[Value]]:
+    """
+    Set the default value to the missing values in the array for solution
+    concepts calculations.
+    """
+    used_default_value = False
+    for i in range(len(values_array)):
+        if np.isnan(values_array[i]):
+            values_array[i] = default_value
+            used_default_value = True
+
+    if used_default_value and default_value == DEFAULT_VALUE:
+        warnings.warn(DEFAULT_VALUE_WARNING, RuntimeWarning, stacklevel=2)
+
+    return values_array
