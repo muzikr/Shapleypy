@@ -80,14 +80,21 @@ def test_save_game_to_csv(  # type: ignore
     game.set_values(basic_values_for_game_of_three_coalition_form)
     file = tmpdir.join("game.csv")
     save_game_to_csv(game, str(file))
+    i = 0
     with open(file) as f:
         reader = csv.reader(f, delimiter=":")
         assert next(reader) == ["n", "3"]
-        for coalition, value in basic_values_for_game_of_three_coalition_form:
-            read_data = next(reader)
-            read_coalition = [int(x) for x in read_data[0].split(",")]
-            read_value = float(read_data[1])
-            assert [read_coalition, read_value] == [
-                list(coalition.get_players),
-                value,
-            ]
+        for row in reader:
+            if row:
+                coalition, value = (
+                    basic_values_for_game_of_three_coalition_form[i]
+                )
+                i += 1
+                read_coalition = [int(x) for x in row[0].split(",")]
+                read_value = float(row[1])
+                assert [read_coalition, read_value] == [
+                    list(coalition.get_players),
+                    value,
+                ]
+    # Check if all values were read
+    assert i == len(basic_values_for_game_of_three_coalition_form)
