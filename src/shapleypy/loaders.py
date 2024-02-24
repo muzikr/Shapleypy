@@ -3,7 +3,7 @@ import csv
 import json
 
 from shapleypy.constants import (
-    LOADERS_CSV_SEPARATOR_ERROR,
+    CSV_SEPARATOR_ERROR,
     LOADERS_MISSING_NUMBER_OF_PLAYERS_ERROR,
 )
 from shapleypy.game import Game
@@ -32,7 +32,7 @@ def load_game_from_csv(
     file: str, csv_separator: str = ":", coalition_separator: str = ","
 ) -> Game:
     if csv_separator == coalition_separator:
-        raise ValueError(LOADERS_CSV_SEPARATOR_ERROR)
+        raise ValueError(CSV_SEPARATOR_ERROR)
 
     n = None
     values = []
