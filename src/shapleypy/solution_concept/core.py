@@ -74,3 +74,10 @@ def solution_in_core(
         )[0]
         for coalition in Coalition.all_coalitions(game.number_of_players)
     )
+
+
+def is_empty(game: Game) -> bool:
+    """
+    Check if the core of a game is empty.
+    """
+    return _get_polyhedron_of_game(game).is_empty()
