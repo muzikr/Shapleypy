@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 import numpy as np
+import ppl  # type: ignore
 
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
@@ -18,6 +19,40 @@ def _get_payoff(
     Get the payoff of a coalition in a game.
     """
     return np.sum(np.array(payoff_vector)[list(coalition.get_players)])
+
+
+def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
+    """
+    Get the polyhedron of a game.
+    """
+    constrain_system = ppl.Constraint_System()
+
+    # Just preimputations
+    denominator = game.get_value(
+        Coalition.grand_coalition(game.number_of_players)
+    ).as_integer_ratio()[1]
+    constrain_system.insert(
+        ppl.Linear_Expression(
+            {
+                player: 1 * denominator
+                for player in range(game.number_of_players)
+            },
+            0,
+        )
+        == game.get_value(Coalition.grand_coalition(game.number_of_players))
+        * denominator
+    )
+
+    for coalition in Coalition.all_coalitions(game.number_of_players):
+        denominator = game.get_value(coalition).as_integer_ratio()[1]
+        constrain_system.insert(
+            ppl.Linear_Expression(
+                {player: 1 * denominator for player in coalition.get_players}, 0
+            )
+            >= game.get_value(coalition) * denominator
+        )
+
+    return ppl.C_Polyhedron(constrain_system)
 
 
 def solution_in_core(
