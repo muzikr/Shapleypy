@@ -24,7 +24,10 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "numpy"
+  "numpy",
+  "pplpy==0.8.9",
+  "gmpy2==2.1.5",
+  "cysignals==1.11.4",
 ]
 
 [project.urls]
