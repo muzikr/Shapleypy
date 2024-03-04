@@ -1,4 +1,6 @@
 name: default
-
+channels:
+  - conda-forge
+  - defaults
 dependencies:
   - pplpy
