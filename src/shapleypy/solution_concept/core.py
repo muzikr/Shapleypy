@@ -28,9 +28,9 @@ def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
     constrain_system = ppl.Constraint_System()
 
     # Just preimputations
-    denominator = game.get_value(
+    numerator, denominator = game.get_value(
         Coalition.grand_coalition(game.number_of_players)
-    ).as_integer_ratio()[1]
+    ).as_integer_ratio()
     constrain_system.insert(
         ppl.Linear_Expression(
             {
@@ -39,17 +39,16 @@ def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
             },
             0,
         )
-        == game.get_value(Coalition.grand_coalition(game.number_of_players))
-        * denominator
+        == numerator
     )
 
     for coalition in Coalition.all_coalitions(game.number_of_players):
-        denominator = game.get_value(coalition).as_integer_ratio()[1]
+        numerator, denominator = game.get_value(coalition).as_integer_ratio()
         constrain_system.insert(
             ppl.Linear_Expression(
                 {player: 1 * denominator for player in coalition.get_players}, 0
             )
-            >= game.get_value(coalition) * denominator
+            >= numerator
         )
 
     return ppl.C_Polyhedron(constrain_system)
