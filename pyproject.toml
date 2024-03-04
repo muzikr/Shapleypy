@@ -39,6 +39,8 @@ Source = "https://github.com/muzikr/Shapleypy"
 path = "src/shapleypy/__about__.py"
 
 [tool.hatch.envs.default]
+type = "conda"
+conda-forge = true
 dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
@@ -59,6 +61,8 @@ cov = [
 python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.types]
+type = "conda"
+conda-forge = true
 extra-dependencies = [
   "mypy>=1.8.0",
 ]
@@ -66,6 +70,8 @@ extra-dependencies = [
 check = "mypy --install-types --non-interactive {args:src/ tests/}"
 
 [tool.hatch.envs.lint]
+type = "conda"
+conda-forge = true
 detached = true
 dependencies = [
   "black>=24.1.0",
