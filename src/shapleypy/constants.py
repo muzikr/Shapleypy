@@ -17,6 +17,10 @@ LOADERS_MISSING_NUMBER_OF_PLAYERS_ERROR = (
     "The file does not contain the number of players."
 )
 CSV_SEPARATOR_ERROR = "csv_separator and coalition_separator cannot be the same"
+CORE_POINT_ERROR = """
+    The generator is not a point. If you managed to get this error, please
+    report it to the developers.
+    """
 
 # Warnings
 DEFAULT_VALUE_WARNING = "Warning: Unchanged default value is used in the game"

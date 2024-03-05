@@ -6,6 +6,7 @@ import numpy as np
 import ppl  # type: ignore
 
 from shapleypy.coalition import Coalition
+from shapleypy.constants import CORE_POINT_ERROR
 from shapleypy.game import Game
 from shapleypy.protocols import Value
 from shapleypy.solution_concept._default_value import set_default_value
@@ -54,6 +55,18 @@ def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
     return ppl.C_Polyhedron(constrain_system)
 
 
+def _convert_point_to_vector(point: ppl.Generator) -> tuple[float]:
+    """
+    Convert a point to a vector.
+    """
+    if not point.is_point():
+        raise TypeError(CORE_POINT_ERROR)
+    divisor = point.divisor()
+    return tuple(
+        float(coefficient) / divisor for coefficient in point.coefficients()
+    )
+
+
 def solution_in_core(
     game: Game,
     payoff_vector: Iterable[Value | float],
@@ -81,3 +94,13 @@ def is_empty(game: Game) -> bool:
     Check if the core of a game is empty.
     """
     return _get_polyhedron_of_game(game).is_empty()
+
+
+def get_vertices(game: Game) -> Iterable[tuple[float]]:
+    """
+    Get the vertices of the core of a game.
+    """
+    yield from (
+        _convert_point_to_vector(vertex)
+        for vertex in _get_polyhedron_of_game(game).minimized_generators()
+    )
