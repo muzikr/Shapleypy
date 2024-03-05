@@ -21,6 +21,10 @@ CORE_POINT_ERROR = """
     The generator is not a point. If you managed to get this error, please
     report it to the developers.
     """
+CORE_WINDOWS_ERROR = """
+    The 'pplpy' package is required to use the core solution concept. But is
+    not available for windows.
+    """
 
 # Warnings
 DEFAULT_VALUE_WARNING = "Warning: Unchanged default value is used in the game"

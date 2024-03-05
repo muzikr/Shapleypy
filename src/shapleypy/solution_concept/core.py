@@ -3,10 +3,15 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 import numpy as np
-import ppl  # type: ignore
+
+from shapleypy.constants import CORE_POINT_ERROR, CORE_WINDOWS_ERROR
+
+try:
+    import ppl  # type: ignore
+except ModuleNotFoundError:
+    raise ImportError(CORE_WINDOWS_ERROR) from None
 
 from shapleypy.coalition import Coalition
-from shapleypy.constants import CORE_POINT_ERROR
 from shapleypy.game import Game
 from shapleypy.protocols import Value
 from shapleypy.solution_concept._default_value import set_default_value
