@@ -7,6 +7,7 @@ from shapleypy.coalition import Coalition
 from shapleypy.game import Game
 from shapleypy.solution_concept.core import (
     _get_payoff,
+    contains_integer_point,
     get_vertices,
     is_empty,
     solution_in_core,
@@ -82,3 +83,20 @@ def test_get_vertices(
     }
     game.set_values(game_of_three_values_empty_core)
     assert set(get_vertices(game)) == set()
+
+
+def test_contain_integer_point(
+    game_of_three_values_non_empty_core: list[tuple[Coalition, float]]
+) -> None:
+    game = Game(3)
+    game.set_values(game_of_three_values_non_empty_core)
+    assert not contains_integer_point(game)
+    game = Game(2)
+    game.set_values(
+        [
+            (Coalition.from_players([0]), 0.0),
+            (Coalition.from_players([1]), 0.0),
+            (Coalition.from_players([0, 1]), 1.0),
+        ]
+    )
+    assert contains_integer_point(game)
