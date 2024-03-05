@@ -104,3 +104,10 @@ def get_vertices(game: Game) -> Iterable[tuple[float]]:
         _convert_point_to_vector(vertex)
         for vertex in _get_polyhedron_of_game(game).minimized_generators()
     )
+
+
+def contains_integer_point(game: Game) -> bool:
+    """
+    Check if the core of a game contains an integer solution.
+    """
+    return _get_polyhedron_of_game(game).contains_integer_point()
