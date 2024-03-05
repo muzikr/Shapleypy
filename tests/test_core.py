@@ -7,6 +7,7 @@ from shapleypy.coalition import Coalition
 from shapleypy.game import Game
 from shapleypy.solution_concept.core import (
     _get_payoff,
+    get_vertices,
     is_empty,
     solution_in_core,
 )
@@ -65,3 +66,19 @@ def test_is_empty(
     assert not is_empty(game)
     game.set_values(game_of_three_values_empty_core)
     assert is_empty(game)
+
+
+def test_get_vertices(
+    game_of_three_values_non_empty_core: list[tuple[Coalition, float]],
+    game_of_three_values_empty_core: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(game_of_three_values_non_empty_core)
+    assert set(get_vertices(game)) == {
+        (0.25, 0.0, 0.75),
+        (0.0, 0.5, 0.5),
+        (0.25, 0.5, 0.25),
+        (0.0, 0.25, 0.75),
+    }
+    game.set_values(game_of_three_values_empty_core)
+    assert set(get_vertices(game)) == set()
