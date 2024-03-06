@@ -3,8 +3,10 @@ from __future__ import annotations
 import pytest
 
 from shapleypy.classes.checkers import (
+    check_convexity,
     check_monotonicity,
     check_superadditivity,
+    check_supermodularity,
     check_weakly_superadditivity,
 )
 from shapleypy.coalition import Coalition
@@ -13,7 +15,7 @@ from shapleypy.game import Game
 
 @pytest.fixture
 def monotone_game_of_three() -> list[tuple[Coalition, float]]:
-    """Not weakly superadditive."""
+    """Not weakly superadditive, not supperadditive, not convex"""
     return [
         (Coalition.from_players([0]), 6.0),
         (Coalition.from_players([1]), 12.0),
@@ -36,6 +38,23 @@ def superadditive_game_of_three() -> list[tuple[Coalition, float]]:
         (Coalition.from_players([0, 2]), 48.0),
         (Coalition.from_players([1, 2]), 55.0),
         (Coalition.from_players([0, 1, 2]), 80.0),
+    ]
+
+
+@pytest.fixture
+def convex_game_of_three() -> list[tuple[Coalition, float]]:
+    """
+    Superadditive, weakly superadditive, convex
+    v(S)=|S|^2
+    """
+    return [
+        (Coalition.from_players([0]), 1.0),
+        (Coalition.from_players([1]), 1.0),
+        (Coalition.from_players([0, 1]), 4.0),
+        (Coalition.from_players([2]), 1.0),
+        (Coalition.from_players([0, 2]), 4.0),
+        (Coalition.from_players([1, 2]), 4.0),
+        (Coalition.from_players([0, 1, 2]), 9.0),
     ]
 
 
@@ -69,3 +88,16 @@ def test_check_superadditivity(
     assert check_superadditivity(game)
     game.set_values(monotone_game_of_three)
     assert not check_superadditivity(game)
+
+
+def test_check_convexity(
+    convex_game_of_three: list[tuple[Coalition, float]],
+    monotone_game_of_three: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(convex_game_of_three)
+    assert check_convexity(game)
+    assert check_supermodularity(game)
+    game.set_values(monotone_game_of_three)
+    assert not check_convexity(game)
+    assert not check_supermodularity(game)
