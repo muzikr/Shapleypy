@@ -4,6 +4,7 @@ import pytest
 
 from shapleypy.classes.checkers import (
     check_monotonicity,
+    check_superadditivity,
     check_weakly_superadditivity,
 )
 from shapleypy.coalition import Coalition
@@ -57,3 +58,14 @@ def test_check_weakly_superadditivity(
     assert not check_weakly_superadditivity(game)
     game.set_values(superadditive_game_of_three)
     assert check_weakly_superadditivity(game)
+
+
+def test_check_superadditivity(
+    superadditive_game_of_three: list[tuple[Coalition, float]],
+    monotone_game_of_three: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(superadditive_game_of_three)
+    assert check_superadditivity(game)
+    game.set_values(monotone_game_of_three)
+    assert not check_superadditivity(game)
