@@ -1,6 +1,11 @@
+# ruff: noqa: N806
 from __future__ import annotations
 
-from shapleypy.coalition import Coalition, all_one_player_missing_subcoalitions
+from shapleypy.coalition import (
+    EMPTY_COALITION,
+    Coalition,
+    all_one_player_missing_subcoalitions,
+)
 from shapleypy.game import Game
 
 
@@ -26,5 +31,15 @@ def check_weakly_superadditivity(game: Game) -> bool:
             if game.get_value(coalition) + game.get_value([i]) > game.get_value(
                 coalition + i
             ):
+                return False
+    return True
+
+
+def check_superadditivity(game: Game) -> bool:
+    for T in game.all_coalitions:
+        for S in filter(
+            lambda s: T * s == EMPTY_COALITION, game.all_coalitions
+        ):
+            if game.get_value(T) + game.get_value(S) > game.get_value(T + S):
                 return False
     return True

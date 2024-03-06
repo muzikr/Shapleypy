@@ -139,3 +139,6 @@ def all_one_player_missing_subcoalitions(
     """
     for i in coalition.get_players:
         yield coalition - i
+
+
+EMPTY_COALITION = Coalition(0)
