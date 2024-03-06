@@ -55,3 +55,7 @@ def check_convexity(game: Game) -> bool:
                 ) - game.get_value(T):
                     return False
     return True
+
+
+def check_supermodularity(game: Game) -> bool:
+    return check_convexity(game)
