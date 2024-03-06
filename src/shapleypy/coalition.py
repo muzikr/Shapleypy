@@ -128,3 +128,14 @@ class Coalition:
     def all_coalitions(n_players: int) -> Iterable[Coalition]:
         """Return all coalitions of a game of n_players"""
         return Coalition.grand_coalition(n_players).all_subcoalitions()
+
+
+def all_one_player_missing_subcoalitions(
+    coalition: Coalition,
+) -> Iterable[Coalition]:
+    """
+    Returns all subcoalitions that are missing one player.
+    (Of size len(coalition) - 1)
+    """
+    for i in coalition.get_players:
+        yield coalition - i
