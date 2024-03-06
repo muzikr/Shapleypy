@@ -13,13 +13,10 @@ def check_monotonicity(game: Game) -> bool:
     """
     Check if the game is monotone.
     """
-    for coalition in game.all_coalitions:
-        for coalition_without_player in all_one_player_missing_subcoalitions(
-            coalition
-        ):
-            if game.get_value(coalition) < game.get_value(
-                coalition_without_player
-            ):
+    for S in game.all_coalitions:
+        # Check the values of all subcoalitions of size |S| - 1
+        for S_minus_one in all_one_player_missing_subcoalitions(S):
+            if game.get_value(S) < game.get_value(S_minus_one):
                 return False
     return True
 
@@ -27,10 +24,8 @@ def check_monotonicity(game: Game) -> bool:
 def check_weakly_superadditivity(game: Game) -> bool:
     grand_coalition = Coalition.grand_coalition(game.number_of_players)
     for i in range(game.number_of_players):
-        for coalition in (grand_coalition - i).all_subcoalitions():
-            if game.get_value(coalition) + game.get_value([i]) > game.get_value(
-                coalition + i
-            ):
+        for S in (grand_coalition - i).all_subcoalitions():
+            if game.get_value(S) + game.get_value([i]) > game.get_value(S + i):
                 return False
     return True
 
