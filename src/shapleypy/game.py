@@ -92,3 +92,7 @@ class Game:
             a == b or (np.isnan(a) and np.isnan(b))
             for a, b in zip(self._values, other._values)
         )
+
+    @property
+    def all_coalitions(self) -> Coalitions:
+        return Coalition.all_coalitions(self.number_of_players)

@@ -5,7 +5,6 @@ import json
 
 import numpy as np
 
-from shapleypy.coalition import Coalition
 from shapleypy.constants import CSV_SEPARATOR_ERROR
 from shapleypy.game import Game
 
@@ -15,9 +14,7 @@ def _prepare_game_dict(game: Game) -> dict:
         "n": game.number_of_players,
         "values": {
             str(list(coalition.get_players)): value
-            for coalition, value in game.get_values(
-                Coalition.all_coalitions(game.number_of_players)
-            )
+            for coalition, value in game.get_values(game.all_coalitions)
             if not np.isnan(value)
         },
     }
@@ -42,9 +39,7 @@ def save_game_to_csv(
     with open(filename, "w") as file:
         writer = csv.writer(file, delimiter=csv_separator)
         writer.writerow(["n", game.number_of_players])
-        for coalition, value in game.get_values(
-            Coalition.all_coalitions(game.number_of_players)
-        ):
+        for coalition, value in game.get_values(game.all_coalitions):
             if not np.isnan(value):
                 writer.writerow(
                     [

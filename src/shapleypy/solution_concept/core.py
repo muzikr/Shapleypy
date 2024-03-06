@@ -48,7 +48,7 @@ def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
         == numerator
     )
 
-    for coalition in Coalition.all_coalitions(game.number_of_players):
+    for coalition in game.all_coalitions:
         numerator, denominator = game.get_value(coalition).as_integer_ratio()
         constrain_system.insert(
             ppl.Linear_Expression(
@@ -90,7 +90,7 @@ def solution_in_core(
         >= set_default_value(
             np.array([game.get_value(coalition)]), default_value
         )[0]
-        for coalition in Coalition.all_coalitions(game.number_of_players)
+        for coalition in game.all_coalitions
     )
 
 
