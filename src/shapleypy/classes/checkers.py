@@ -45,14 +45,15 @@ def check_superadditivity(game: Game) -> bool:
 
 def check_convexity(game: Game) -> bool:
     grand_coalition = Coalition.grand_coalition(game.number_of_players)
-    for i in range(game.number_of_players):
-        for T in (grand_coalition - i).all_subcoalitions():
-            i_contribution_to_T = game.get_value(T + i) - game.get_value(T)
-            for S in T.all_subcoalitions():
-                if (
-                    game.get_value(S + i) - game.get_value(S)
-                    > i_contribution_to_T
-                ):
+    # We can use just i < j, because it the condition is symmetric
+    # (if we exchange i and j, we get the same condition)
+    for i in range(game.number_of_players - 1):
+        grand_coalition_without_i = grand_coalition - i
+        for j in range(i + 1, game.number_of_players):
+            for S in (grand_coalition_without_i - j).all_subcoalitions():
+                if game.get_value((S + i) + j) - game.get_value(
+                    S + i
+                ) < game.get_value(S + j) - game.get_value(S):
                     return False
     return True
 
