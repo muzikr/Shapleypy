@@ -5,6 +5,7 @@ import pytest
 from shapleypy.classes.checkers import (
     check_convexity,
     check_monotonicity,
+    check_positivity,
     check_superadditivity,
     check_supermodularity,
     check_weakly_superadditivity,
@@ -44,7 +45,7 @@ def superadditive_game_of_three() -> list[tuple[Coalition, float]]:
 @pytest.fixture
 def convex_game_of_three() -> list[tuple[Coalition, float]]:
     """
-    Superadditive, weakly superadditive, convex
+    Superadditive, weakly superadditive, convex, positive
     v(S)=|S|^2
     """
     return [
@@ -101,3 +102,14 @@ def test_check_convexity(
     game.set_values(monotone_game_of_three)
     assert not check_convexity(game)
     assert not check_supermodularity(game)
+
+
+def test_check_positivity(
+    convex_game_of_three: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(convex_game_of_three)
+    assert check_positivity(game)
+    # For S={0, 1, 2}, m_S = 0 so if I set whole to 8 it will be -1
+    game.set_value(Coalition.from_players([0, 1, 2]), 8.0)
+    assert not check_positivity(game)
