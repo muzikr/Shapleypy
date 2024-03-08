@@ -60,3 +60,14 @@ def check_convexity(game: Game) -> bool:
 
 def check_supermodularity(game: Game) -> bool:
     return check_convexity(game)
+
+
+def check_positivity(game: Game) -> bool:
+    for S in game.all_coalitions:
+        m_S = 0
+        size_of_S = len(S)
+        for T in S.all_subcoalitions():
+            m_S += (-1) ** (size_of_S - len(T)) * game.get_value(T)
+        if m_S < 0:
+            return False
+    return True
