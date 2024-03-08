@@ -71,3 +71,25 @@ def check_positivity(game: Game) -> bool:
         if m_S < 0:
             return False
     return True
+
+
+def determine_class(game: Game) -> str:
+    """
+    Determine the class of the game from standart hierarchy.
+
+    Returns just the highest to which the game belongs.
+    (Positive, convex, superadditive, weakly superadditive, monotone, none)
+    """
+    checks = [
+        ("Positive", check_positivity),
+        ("Convex", check_convexity),
+        ("Superadditive", check_superadditivity),
+        ("Weakly superadditive", check_weakly_superadditivity),
+        ("Monotone", check_monotonicity),
+    ]
+
+    for cls, check_func in checks:
+        if check_func(game):
+            return cls
+
+    return "None"
