@@ -9,6 +9,7 @@ from shapleypy.classes.checkers import (
     check_superadditivity,
     check_supermodularity,
     check_weakly_superadditivity,
+    determine_class,
 )
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
@@ -30,7 +31,7 @@ def monotone_game_of_three() -> list[tuple[Coalition, float]]:
 
 @pytest.fixture
 def superadditive_game_of_three() -> list[tuple[Coalition, float]]:
-    """Superadditive, weakly superadditive"""
+    """Superadditive, weakly superadditive, positive"""
     return [
         (Coalition.from_players([0]), 6.0),
         (Coalition.from_players([1]), 12.0),
@@ -113,3 +114,19 @@ def test_check_positivity(
     # For S={0, 1, 2}, m_S = 0 so if I set whole to 8 it will be -1
     game.set_value(Coalition.from_players([0, 1, 2]), 8.0)
     assert not check_positivity(game)
+
+
+def test_detemine_class(
+    convex_game_of_three: list[tuple[Coalition, float]],
+    monotone_game_of_three: list[tuple[Coalition, float]],
+    superadditive_game_of_three: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(convex_game_of_three)
+    assert determine_class(game) == "Positive"
+    game.set_values(monotone_game_of_three)
+    assert determine_class(game) == "Monotone"
+    game.set_values(superadditive_game_of_three)
+    assert determine_class(game) == "Positive"
+    game.set_value(Coalition.from_players([0, 1, 2]), -8.0)
+    assert determine_class(game) == "None"
