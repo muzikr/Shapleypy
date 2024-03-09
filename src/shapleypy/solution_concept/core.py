@@ -27,16 +27,21 @@ def _get_payoff(
     return np.sum(np.array(payoff_vector)[list(coalition.get_players)])
 
 
-def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
+def _get_polyhedron_of_game(
+    game: Game, default_value: Value | float | None = None
+) -> ppl.Polyhedron:
     """
     Get the polyhedron of a game.
     """
     constrain_system = ppl.Constraint_System()
 
     # Just preimputations
-    numerator, denominator = game.get_value(
-        Coalition.grand_coalition(game.number_of_players)
-    ).as_integer_ratio()
+    numerator, denominator = set_default_value(
+        np.array(
+            [game.get_value(Coalition.grand_coalition(game.number_of_players))]
+        ),
+        default_value,
+    )[0].as_integer_ratio()
     constrain_system.insert(
         ppl.Linear_Expression(
             {
@@ -49,7 +54,9 @@ def _get_polyhedron_of_game(game: Game) -> ppl.Polyhedron:
     )
 
     for coalition in game.all_coalitions:
-        numerator, denominator = game.get_value(coalition).as_integer_ratio()
+        numerator, denominator = set_default_value(
+            np.array([game.get_value(coalition)]), default_value
+        )[0].as_integer_ratio()
         constrain_system.insert(
             ppl.Linear_Expression(
                 {player: 1 * denominator for player in coalition.get_players}, 0
@@ -94,25 +101,31 @@ def solution_in_core(
     )
 
 
-def is_empty(game: Game) -> bool:
+def is_empty(game: Game, default_value: Value | float | None = None) -> bool:
     """
     Check if the core of a game is empty.
     """
-    return _get_polyhedron_of_game(game).is_empty()
+    return _get_polyhedron_of_game(game, default_value).is_empty()
 
 
-def get_vertices(game: Game) -> Iterable[tuple[float]]:
+def get_vertices(
+    game: Game, default_value: Value | float | None = None
+) -> Iterable[tuple[float]]:
     """
     Get the vertices of the core of a game.
     """
     yield from (
         _convert_point_to_vector(vertex)
-        for vertex in _get_polyhedron_of_game(game).minimized_generators()
+        for vertex in _get_polyhedron_of_game(
+            game, default_value
+        ).minimized_generators()
     )
 
 
-def contains_integer_point(game: Game) -> bool:
+def contains_integer_point(
+    game: Game, default_value: Value | float | None = None
+) -> bool:
     """
     Check if the core of a game contains an integer solution.
     """
-    return _get_polyhedron_of_game(game).contains_integer_point()
+    return _get_polyhedron_of_game(game, default_value).contains_integer_point()
