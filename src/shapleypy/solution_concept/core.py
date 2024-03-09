@@ -129,3 +129,13 @@ def contains_integer_point(
     Check if the core of a game contains an integer solution.
     """
     return _get_polyhedron_of_game(game, default_value).contains_integer_point()
+
+
+def get_core_polyhedron(
+    game: Game, default_value: Value | float | None = None
+) -> ppl.Polyhedron:
+    """
+    Get the polyhedron of the core of a game. Check pplpy documentation
+    for more information.
+    """
+    return _get_polyhedron_of_game(game, default_value)
