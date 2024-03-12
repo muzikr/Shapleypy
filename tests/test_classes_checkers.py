@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from shapleypy.classes.checkers import (
+from shapleypy.classes_checkers import (
     check_convexity,
     check_monotonicity,
     check_positivity,
