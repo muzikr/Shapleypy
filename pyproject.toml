@@ -27,6 +27,7 @@ dependencies = [
   "pplpy==0.8.9; platform_system != 'Windows'",
   "gmpy2==2.1.5; platform_system != 'Windows'",
   "cysignals==1.11.4; platform_system != 'Windows'",
+  "pyfmtools @ git+https://github.com/furadnik/fmtools-fix",
 ]
 
 [project.urls]
@@ -36,6 +37,9 @@ Source = "https://github.com/muzikr/Shapleypy"
 
 [tool.hatch.version]
 path = "src/shapleypy/__about__.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.hatch.envs.default]
 dependencies = [
