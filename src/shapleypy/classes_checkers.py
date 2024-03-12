@@ -1,6 +1,8 @@
 # ruff: noqa: N806
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from shapleypy.coalition import (
     EMPTY_COALITION,
     Coalition,
@@ -80,7 +82,7 @@ def determine_class(game: Game) -> str:
     Returns just the highest to which the game belongs.
     (Positive, convex, superadditive, weakly superadditive, monotone, none)
     """
-    checks = [
+    checks: list[tuple[str, Callable[[Game], bool]]] = [
         ("Positive", check_positivity),
         ("Convex", check_convexity),
         ("Superadditive", check_superadditivity),
