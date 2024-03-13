@@ -2,7 +2,12 @@ from __future__ import annotations
 
 import pytest
 
-from shapleypy.generators import ReturnType, random_game_generator
+from shapleypy.classes_checkers import check_positivity
+from shapleypy.generators import (
+    ReturnType,
+    positive_game_generator,
+    random_game_generator,
+)
 
 
 def test_random_game_generator() -> None:
@@ -19,3 +24,16 @@ def test_random_game_generator() -> None:
     assert all(not value.is_integer() for value in game._values[1:])
     with pytest.raises(ValueError):
         random_game_generator(10, lower_bound=10, upper_bound=0)
+
+
+def test_positive_game_generator() -> None:
+    game = positive_game_generator(5)
+    assert all(not value.is_integer() for value in game._values[1:])
+    assert check_positivity(game)
+    game = positive_game_generator(
+        5, return_type=ReturnType.INTEGER, lower_bound=0, upper_bound=10
+    )
+    assert all(value.is_integer() for value in game._values[1:])
+    assert check_positivity(game)
+    with pytest.raises(ValueError):
+        positive_game_generator(5, lower_bound=-1)
