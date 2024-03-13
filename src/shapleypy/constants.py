@@ -25,6 +25,7 @@ CORE_WINDOWS_ERROR = """
     The 'pplpy' package is required to use the core solution concept. But is
     not available for windows.
     """
+POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR = "lower_bound must be non-negative"
 
 # Warnings
 DEFAULT_VALUE_WARNING = "Warning: Unchanged default value is used in the game"

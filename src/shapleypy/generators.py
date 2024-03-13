@@ -5,6 +5,7 @@ from enum import Enum
 
 import numpy as np
 
+from shapleypy.constants import POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR
 from shapleypy.game import Game
 
 
@@ -44,5 +45,37 @@ def random_game_generator(
             generator, return_type, lower_bound, upper_bound
         )
         game.set_value(S, random_number)
+
+    return game
+
+
+def positive_game_generator(
+    number_of_players: int,
+    generator: np.random.Generator = np.random.default_rng(),
+    return_type: ReturnType = ReturnType.FLOAT,
+    lower_bound: int = 0,
+    upper_bound: int = 1,
+) -> Game:
+    r"""
+    generator will be used to generate m^v(S) for all S in 2^N and the v(S) is
+    computed as \sum_{T \subseteq S} m^v(T)
+    """
+    if lower_bound < 0:
+        raise ValueError(POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR)
+
+    # Generate m^v(S) for each S in 2^N
+    m_v_game = random_game_generator(
+        number_of_players,
+        generator,
+        return_type=return_type,
+        lower_bound=lower_bound,
+        upper_bound=upper_bound,
+    )
+
+    game = Game(number_of_players)
+
+    for S in game.all_coalitions:
+        v_S = sum(m_v_game.get_value(T) for T in S.all_subcoalitions())
+        game.set_value(S, v_S)
 
     return game
