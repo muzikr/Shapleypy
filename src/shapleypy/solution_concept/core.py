@@ -7,7 +7,7 @@ import numpy as np
 from shapleypy.constants import CORE_POINT_ERROR, CORE_WINDOWS_ERROR
 
 try:
-    import ppl  # type: ignore
+    import ppl  # type: ignore[import-untyped]
 except ModuleNotFoundError:
     raise ImportError(CORE_WINDOWS_ERROR) from None
 
