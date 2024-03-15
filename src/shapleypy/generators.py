@@ -5,6 +5,7 @@ from enum import Enum
 
 import numpy as np
 
+from shapleypy.classes_checkers import check_convexity
 from shapleypy.constants import POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR
 from shapleypy.game import Game
 
@@ -77,5 +78,33 @@ def positive_game_generator(
     for S in game.all_coalitions:
         v_S = sum(m_v_game.get_value(T) for T in S.all_subcoalitions())
         game.set_value(S, v_S)
+
+    return game
+
+
+# ruff: noqa: ARG001
+def convex_game_generator(
+    number_of_players: int,
+    generator: np.random.Generator = np.random.default_rng(),
+    return_type: ReturnType = ReturnType.FLOAT,
+    lower_bound: int = 0,
+    upper_bound: int = 1,
+) -> Game:
+    import pyfmtools as fmp  # type: ignore[import-untyped]
+
+    env = fmp.fm_init(number_of_players)
+
+    game = Game(number_of_players)
+    while True:
+        _, values = fmp.generate_fmconvex_tsort(
+            1, number_of_players, number_of_players - 1, 1000, 1, 1000, env
+        )
+        converted_values = fmp.ConvertCard2Bit(values, env)
+        if fmp.IsMeasureSupermodular(converted_values, env):
+            game.set_values(list(zip(game.all_coalitions, converted_values)))
+            if check_convexity(game):
+                break
+
+    fmp.fm_free(env)
 
     return game
