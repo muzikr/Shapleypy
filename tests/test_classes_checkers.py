@@ -4,6 +4,7 @@ import pytest
 
 from shapleypy.classes_checkers import (
     check_convexity,
+    check_k_additivity,
     check_k_game,
     check_monotonicity,
     check_positivity,
@@ -136,3 +137,12 @@ def test_check_k_game(
     assert check_k_game(game, 2)
     assert not check_k_game(game, 0)
     assert check_k_game(game)
+
+
+def test_check_k_additivity(
+    positive_game_of_three: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(positive_game_of_three)
+    assert check_k_additivity(game, 2)
+    assert not check_k_additivity(game, 1)
