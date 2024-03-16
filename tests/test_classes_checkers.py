@@ -4,6 +4,7 @@ import pytest
 
 from shapleypy.classes_checkers import (
     check_convexity,
+    check_k_game,
     check_monotonicity,
     check_positivity,
     check_superadditivity,
@@ -42,6 +43,19 @@ def positive_game_of_three() -> list[tuple[Coalition, float]]:
         (Coalition.from_players([0, 2]), 4.0),
         (Coalition.from_players([1, 2]), 4.0),
         (Coalition.from_players([0, 1, 2]), 9.0),
+    ]
+
+
+@pytest.fixture
+def k_game_of_three() -> list[tuple[Coalition, float]]:
+    return [
+        (Coalition.from_players([0]), 0.0),
+        (Coalition.from_players([1]), 0.0),
+        (Coalition.from_players([0, 1]), 1.0),
+        (Coalition.from_players([2]), 0.0),
+        (Coalition.from_players([0, 2]), 2.0),
+        (Coalition.from_players([1, 2]), 3.0),
+        (Coalition.from_players([0, 1, 2]), 6.0),
     ]
 
 
@@ -112,3 +126,13 @@ def test_detemine_class(
     assert determine_class(game) == "Monotone"
     game.set_value(Coalition.from_players([0, 1, 2]), -8.0)
     assert determine_class(game) == "None"
+
+
+def test_check_k_game(
+    k_game_of_three: list[tuple[Coalition, float]],
+) -> None:
+    game = Game(3)
+    game.set_values(k_game_of_three)
+    assert check_k_game(game, 2)
+    assert not check_k_game(game, 0)
+    assert check_k_game(game)
