@@ -27,7 +27,7 @@ dependencies = [
   "pplpy==0.8.9; platform_system != 'Windows'",
   "gmpy2==2.1.5; platform_system != 'Windows'",
   "cysignals==1.11.4; platform_system != 'Windows'",
-  "pyfmtools @ git+https://github.com/furadnik/fmtools-fix",
+  "pyfmtools @ git+https://github.com/furadnik/fmtools-fix ; platform_system == 'Linux'",
 ]
 
 [project.urls]
