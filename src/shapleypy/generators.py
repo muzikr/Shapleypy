@@ -32,6 +32,14 @@ def _generate_random(
     )
 
 
+def _compute_game_from_unanimity_game(unanimity_game: Game) -> Game:
+    game = Game(unanimity_game.number_of_players)
+    for S in game.all_coalitions:
+        v_S = sum(unanimity_game.get_value(T) for T in S.all_subcoalitions())
+        game.set_value(S, v_S)
+    return game
+
+
 def random_game_generator(
     number_of_players: int,
     generator: np.random.Generator = np.random.default_rng(),
@@ -73,13 +81,7 @@ def positive_game_generator(
         upper_bound=upper_bound,
     )
 
-    game = Game(number_of_players)
-
-    for S in game.all_coalitions:
-        v_S = sum(m_v_game.get_value(T) for T in S.all_subcoalitions())
-        game.set_value(S, v_S)
-
-    return game
+    return _compute_game_from_unanimity_game(m_v_game)
 
 
 # ruff: noqa: ARG001
