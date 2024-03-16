@@ -135,7 +135,7 @@ def test_check_k_game(
     game = Game(3)
     game.set_values(k_game_of_three)
     assert check_k_game(game, 2)
-    assert not check_k_game(game, 0)
+    assert not check_k_game(game, 1)
     assert check_k_game(game)
 
 
