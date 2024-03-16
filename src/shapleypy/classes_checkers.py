@@ -96,14 +96,11 @@ def check_k_game(
     if k is None:
         k = _determine_k_for_k_game(game)
 
-    for S in game.all_coalitions:
+    for S in filter(lambda s: len(s) != k, game.all_coalitions):
         if len(S) < k:
             if game.get_value(S) != 0:
                 return False
-        elif len(S) == k:
-            # The values from unanimity game
-            continue
-        elif len(S) > k:
+        else:
             d_S = 0
             size_of_S = len(S)
             for T in S.all_subcoalitions():
