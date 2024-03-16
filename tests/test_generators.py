@@ -4,11 +4,13 @@ import pytest
 
 from shapleypy.classes_checkers import (
     check_convexity,
+    check_k_additivity,
     check_k_game,
     check_positivity,
 )
 from shapleypy.generators import (
     ReturnType,
+    k_additive_game_generator,
     k_game_generator,
     positive_game_generator,
     random_game_generator,
@@ -59,3 +61,8 @@ def test_convex_game_generator() -> None:
 def test_k_game_generator() -> None:
     game = k_game_generator(5, k=3)
     assert check_k_game(game, 3)
+
+
+def test_k_additive_game_generator() -> None:
+    game = k_additive_game_generator(5, k=3)
+    assert check_k_additivity(game, 3)
