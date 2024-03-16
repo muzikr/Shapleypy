@@ -11,6 +11,17 @@ from shapleypy.coalition import (
 from shapleypy.game import Game
 
 
+def _determine_k_for_k_game(game: Game) -> int:
+    for k in range(1, game.number_of_players + 1):
+        if not all(
+            game.get_value(S) == 0
+            for S in filter(lambda s: len(s) == k, game.all_coalitions)
+        ):
+            return k
+    # In case of zero game return number_of_players
+    return k
+
+
 def check_monotonicity(game: Game) -> bool:
     """
     Check if the game is monotone.
@@ -72,6 +83,33 @@ def check_positivity(game: Game) -> bool:
             m_S += (-1) ** (size_of_S - len(T)) * game.get_value(T)
         if m_S < 0:
             return False
+    return True
+
+
+def check_k_game(
+    game: Game, k: int | None = None, epsilon: float = 1e-10
+) -> bool:
+    """
+    Check if the game is a k-game.
+    If k is None program finds the k (takes some extra computation time)
+    """
+    if k is None:
+        k = _determine_k_for_k_game(game)
+
+    for S in game.all_coalitions:
+        if len(S) < k:
+            if game.get_value(S) != 0:
+                return False
+        elif len(S) == k:
+            # The values from unanimity game
+            continue
+        elif len(S) > k:
+            d_S = 0
+            size_of_S = len(S)
+            for T in S.all_subcoalitions():
+                d_S += (-1) ** (size_of_S - len(T)) * game.get_value(T)
+            if not 0 - epsilon <= d_S <= 0 + epsilon:
+                return False
     return True
 
 
