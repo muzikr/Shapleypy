@@ -6,7 +6,10 @@ from enum import Enum
 import numpy as np
 
 from shapleypy.classes_checkers import check_convexity
-from shapleypy.constants import POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR
+from shapleypy.constants import (
+    K_GAMES_PARAMETER,
+    POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR,
+)
 from shapleypy.game import Game
 
 
@@ -110,3 +113,32 @@ def convex_game_generator(
     fmp.fm_free(env)
 
     return game
+
+
+def k_game_generator(
+    number_of_players: int,
+    generator: np.random.Generator = np.random.default_rng(),
+    return_type: ReturnType = ReturnType.FLOAT,
+    lower_bound: int = 0,
+    upper_bound: int = 1,
+    k: int = 1,
+) -> Game:
+    if lower_bound < 0:
+        raise ValueError(POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR)
+
+    if not 0 < k <= number_of_players:
+        raise ValueError(K_GAMES_PARAMETER)
+
+    # Generate m^v(S) for each S in 2^N
+    m_v_game = Game(number_of_players)
+
+    for S in m_v_game.all_coalitions:
+        if len(S) == k:
+            random_number = _generate_random(
+                generator, return_type, lower_bound, upper_bound
+            )
+        else:
+            random_number = 0
+        m_v_game.set_value(S, random_number)
+
+    return _compute_game_from_unanimity_game(m_v_game)

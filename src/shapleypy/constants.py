@@ -26,6 +26,7 @@ CORE_WINDOWS_ERROR = """
     not available for windows.
     """
 POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR = "lower_bound must be non-negative"
+K_GAMES_PARAMETER = "k must be between 1 and the number of players"
 
 # Warnings
 DEFAULT_VALUE_WARNING = "Warning: Unchanged default value is used in the game"
