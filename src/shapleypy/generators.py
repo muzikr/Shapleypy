@@ -7,6 +7,7 @@ import numpy as np
 
 from shapleypy.classes_checkers import check_convexity
 from shapleypy.constants import (
+    CONVEX_GAME_GENERATOR_ERROR,
     K_GAMES_PARAMETER,
     POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR,
 )
@@ -95,7 +96,10 @@ def convex_game_generator(
     lower_bound: int = 0,
     upper_bound: int = 1,
 ) -> Game:
-    import pyfmtools as fmp  # type: ignore[import-untyped]
+    try:
+        import pyfmtools as fmp  # type: ignore[import-untyped]
+    except ModuleNotFoundError:
+        raise ImportError(CONVEX_GAME_GENERATOR_ERROR) from None
 
     env = fmp.fm_init(number_of_players)
 
