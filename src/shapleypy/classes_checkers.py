@@ -8,6 +8,7 @@ from shapleypy.coalition import (
     Coalition,
     all_one_player_missing_subcoalitions,
 )
+from shapleypy.constants import K_GAMES_PARAMETER
 from shapleypy.game import Game
 
 
@@ -107,6 +108,23 @@ def check_k_game(
                 d_S += (-1) ** (size_of_S - len(T)) * game.get_value(T)
             if not 0 - epsilon <= d_S <= 0 + epsilon:
                 return False
+    return True
+
+
+def check_k_additivity(game: Game, k: int, epsilon: float = 1e-10) -> bool:
+    """
+    Check if the game is k-additive.
+    """
+    if not 0 < k <= game.number_of_players:
+        raise ValueError(K_GAMES_PARAMETER)
+
+    for S in filter(lambda s: len(s) > k, game.all_coalitions):
+        d_S = 0
+        size_of_S = len(S)
+        for T in S.all_subcoalitions():
+            d_S += (-1) ** (size_of_S - len(T)) * game.get_value(T)
+        if not 0 - epsilon <= d_S <= 0 + epsilon:
+            return False
     return True
 
 
