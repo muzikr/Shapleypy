@@ -11,9 +11,9 @@ try:
 except ModuleNotFoundError:
     raise ImportError(CORE_WINDOWS_ERROR) from None
 
+from shapleypy._typing import Value
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
-from shapleypy.protocols import Value
 from shapleypy.solution_concept._default_value import set_default_value
 
 

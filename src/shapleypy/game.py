@@ -4,8 +4,8 @@ from collections.abc import Iterable
 
 import numpy as np
 
+from shapleypy._typing import Player, Value
 from shapleypy.coalition import Coalition
-from shapleypy.protocols import Player, Value
 
 Players = Iterable[Player]
 Coalitions = Iterable[Coalition]

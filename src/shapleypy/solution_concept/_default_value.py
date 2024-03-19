@@ -5,8 +5,8 @@ from typing import Any
 
 import numpy as np
 
+from shapleypy._typing import Value
 from shapleypy.constants import DEFAULT_VALUE, DEFAULT_VALUE_WARNING
-from shapleypy.protocols import Value
 
 
 def set_default_value(

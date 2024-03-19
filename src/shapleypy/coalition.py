@@ -4,6 +4,7 @@ from collections.abc import Iterable
 
 import numpy as np
 
+from shapleypy._typing import Player
 from shapleypy.constants import (
     COALITION_NUMBER_OF_PLAYERS_ERROR,
     MAX_PLAYER,
@@ -11,7 +12,6 @@ from shapleypy.constants import (
     MIN_PLAYER,
     MINIMUM_NUMBER_OF_PLAYERS,
 )
-from shapleypy.protocols import Player
 
 
 class Coalition:

@@ -4,9 +4,9 @@ from collections.abc import Iterable
 
 import numpy as np
 
+from shapleypy._typing import Player, Value
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
-from shapleypy.protocols import Player, Value
 from shapleypy.solution_concept._default_value import set_default_value
 
 

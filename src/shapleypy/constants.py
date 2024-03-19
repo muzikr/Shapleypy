@@ -1,4 +1,4 @@
-from shapleypy.protocols import Value
+from shapleypy._typing import Value
 
 # Allowed number of players in a game.
 MAXIMUM_NUMBER_OF_PLAYERS = 32
