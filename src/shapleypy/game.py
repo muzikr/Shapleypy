@@ -6,6 +6,7 @@ import numpy as np
 
 from shapleypy._typing import Player, Value
 from shapleypy.coalition import Coalition
+from shapleypy.constants import GAME_COALITION_INPUT_ERROR
 
 Players = Iterable[Player]
 Coalitions = Iterable[Coalition]
@@ -21,9 +22,14 @@ class Game:
         self, coalition: Coalition | Players, value: Value | float
     ) -> None:
         """Set the value of a coalition."""
-        if isinstance(coalition, Iterable):
-            coalition = Coalition.from_players(coalition)
-        self._values[coalition.id] = value
+        final_coalition = coalition
+        if isinstance(coalition, Iterable) and all(
+            isinstance(i, Player) for i in coalition
+        ):
+            final_coalition = Coalition.from_players(coalition)
+        if not isinstance(final_coalition, Coalition):
+            raise TypeError(GAME_COALITION_INPUT_ERROR)
+        self._values[final_coalition.id] = value
 
     def set_values(
         self, values: Iterable[tuple[Coalition | Players, Value | float]]
@@ -34,9 +40,14 @@ class Game:
 
     def get_value(self, coalition: Coalition | Players) -> Value:
         """Get the value of a coalition."""
-        if isinstance(coalition, Iterable):
-            coalition = Coalition.from_players(coalition)
-        return self._values[coalition.id]
+        final_coalition = coalition
+        if isinstance(coalition, Iterable) and all(
+            isinstance(i, Player) for i in coalition
+        ):
+            final_coalition = Coalition.from_players(coalition)
+        if not isinstance(final_coalition, Coalition):
+            raise TypeError(GAME_COALITION_INPUT_ERROR)
+        return self._values[final_coalition.id]
 
     def get_values(
         self,
@@ -49,14 +60,17 @@ class Game:
                 Coalition.all_coalitions(self.number_of_players)
             )
         else:
-            converted_coalitions = [
-                (
-                    Coalition.from_players(coalition)
-                    if isinstance(coalition, Iterable)
-                    else coalition
-                )
-                for coalition in coalitions
-            ]
+            for coalition in coalitions:
+                if isinstance(coalition, Iterable) and all(
+                    isinstance(i, Player) for i in coalition
+                ):
+                    converted_coalitions.append(
+                        Coalition.from_players(coalition)
+                    )
+                elif isinstance(coalition, Coalition):
+                    converted_coalitions.append(coalition)
+                else:
+                    raise TypeError(GAME_COALITION_INPUT_ERROR)
         yield from (
             (coalition, self.get_value(coalition))
             for coalition in converted_coalitions

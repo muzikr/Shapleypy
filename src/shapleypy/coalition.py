@@ -33,7 +33,9 @@ class Coalition:
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Coalition):
             return self.id == other.id
-        elif isinstance(other, Iterable):
+        elif isinstance(other, Iterable) and all(
+            isinstance(i, Player) for i in other
+        ):
             return self.id == Coalition.from_players(other).id
         return False
 
@@ -52,7 +54,9 @@ class Coalition:
             return Coalition(self.id | Coalition.from_players([other]).id)
         elif isinstance(other, Coalition):
             return Coalition(self.id | other.id)
-        elif isinstance(other, Iterable):
+        elif isinstance(other, Iterable) and all(
+            isinstance(i, Player) for i in other
+        ):
             return Coalition(self.id | Coalition.from_players(other).id)
         raise TypeError
 
@@ -61,7 +65,9 @@ class Coalition:
             return Coalition(self.id & ~Coalition.from_players([other]).id)
         elif isinstance(other, Coalition):
             return Coalition(self.id & ~other.id)
-        elif isinstance(other, Iterable):
+        elif isinstance(other, Iterable) and all(
+            isinstance(i, Player) for i in other
+        ):
             return Coalition(self.id & ~Coalition.from_players(other).id)
         raise TypeError
 
@@ -70,7 +76,9 @@ class Coalition:
             return Coalition(self.id & Coalition.from_players([other]).id)
         elif isinstance(other, Coalition):
             return Coalition(self.id & other.id)
-        elif isinstance(other, Iterable):
+        elif isinstance(other, Iterable) and all(
+            isinstance(i, Player) for i in other
+        ):
             return Coalition(self.id & Coalition.from_players(other).id)
         raise TypeError
 
@@ -79,7 +87,9 @@ class Coalition:
             return Coalition(self.id ^ Coalition.from_players([other]).id)
         elif isinstance(other, Coalition):
             return Coalition(self.id ^ other.id)
-        elif isinstance(other, Iterable):
+        elif isinstance(other, Iterable) and all(
+            isinstance(i, Player) for i in other
+        ):
             return Coalition(self.id ^ Coalition.from_players(other).id)
         raise TypeError
 

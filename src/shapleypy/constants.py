@@ -13,6 +13,9 @@ DEFAULT_VALUE = Value(0.0)
 
 # Errors
 COALITION_NUMBER_OF_PLAYERS_ERROR = "Number of players must be between 1 and 32"
+GAME_COALITION_INPUT_ERROR = (
+    "coalition must be a Coalition or an Iterable of Players"
+)
 LOADERS_MISSING_NUMBER_OF_PLAYERS_ERROR = (
     "The file does not contain the number of players."
 )
