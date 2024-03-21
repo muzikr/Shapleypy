@@ -11,7 +11,7 @@ try:
 except ModuleNotFoundError:
     raise ImportError(CORE_WINDOWS_ERROR) from None
 
-from shapleypy._typing import Value
+from shapleypy._typing import Value, ValueInput
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
 from shapleypy.solution_concept._default_value import set_default_value
@@ -19,7 +19,7 @@ from shapleypy.solution_concept._default_value import set_default_value
 
 def _get_payoff(
     coalition: Coalition,
-    payoff_vector: Iterable[Value | float],
+    payoff_vector: Iterable[ValueInput],
 ) -> Value:
     """
     Get the payoff of a coalition in a game.
@@ -28,7 +28,7 @@ def _get_payoff(
 
 
 def _get_polyhedron_of_game(
-    game: Game, default_value: Value | float | None = None
+    game: Game, default_value: ValueInput | None = None
 ) -> ppl.Polyhedron:
     """
     Get the polyhedron of a game.
@@ -81,8 +81,8 @@ def _convert_point_to_vector(point: ppl.Generator) -> tuple[float]:
 
 def solution_in_core(
     game: Game,
-    payoff_vector: Iterable[Value | float],
-    default_value: Value | float | None = None,
+    payoff_vector: Iterable[ValueInput],
+    default_value: ValueInput | None = None,
 ) -> bool:
     """
     Check if a solution is in the core of a game.
@@ -101,7 +101,7 @@ def solution_in_core(
     )
 
 
-def is_empty(game: Game, default_value: Value | float | None = None) -> bool:
+def is_empty(game: Game, default_value: ValueInput | None = None) -> bool:
     """
     Check if the core of a game is empty.
     """
@@ -109,7 +109,7 @@ def is_empty(game: Game, default_value: Value | float | None = None) -> bool:
 
 
 def get_vertices(
-    game: Game, default_value: Value | float | None = None
+    game: Game, default_value: ValueInput | None = None
 ) -> Iterable[tuple[float]]:
     """
     Get the vertices of the core of a game.
@@ -123,7 +123,7 @@ def get_vertices(
 
 
 def contains_integer_point(
-    game: Game, default_value: Value | float | None = None
+    game: Game, default_value: ValueInput | None = None
 ) -> bool:
     """
     Check if the core of a game contains an integer solution.
@@ -132,7 +132,7 @@ def contains_integer_point(
 
 
 def get_core_polyhedron(
-    game: Game, default_value: Value | float | None = None
+    game: Game, default_value: ValueInput | None = None
 ) -> ppl.Polyhedron:
     """
     Get the polyhedron of the core of a game. Check pplpy documentation

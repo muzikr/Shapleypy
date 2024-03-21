@@ -5,13 +5,13 @@ from typing import Any
 
 import numpy as np
 
-from shapleypy._typing import Value
+from shapleypy._typing import Value, ValueInput
 from shapleypy.constants import DEFAULT_VALUE, DEFAULT_VALUE_WARNING
 
 
 def set_default_value(
     values_array: np.ndarray[Any, np.dtype[Value]],
-    default_value: Value | float | None,
+    default_value: ValueInput | None,
 ) -> np.ndarray[Any, np.dtype[Value]]:
     """
     Set the default value to the missing values in the array for solution

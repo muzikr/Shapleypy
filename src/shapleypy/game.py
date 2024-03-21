@@ -4,7 +4,7 @@ from collections.abc import Iterable
 
 import numpy as np
 
-from shapleypy._typing import Player, Players, Value
+from shapleypy._typing import Player, Players, Value, ValueInput
 from shapleypy.coalition import Coalition
 from shapleypy.constants import GAME_COALITION_INPUT_ERROR
 
@@ -18,7 +18,7 @@ class Game:
         self._init_values()
 
     def set_value(
-        self, coalition: Coalition | Players | Player, value: Value | float
+        self, coalition: Coalition | Players | Player, value: ValueInput
     ) -> None:
         """Set the value of a coalition."""
         final_coalition = coalition
@@ -33,7 +33,7 @@ class Game:
         self._values[final_coalition.id] = value
 
     def set_values(
-        self, values: Iterable[tuple[Coalition | Players, Value | float]]
+        self, values: Iterable[tuple[Coalition | Players, ValueInput]]
     ) -> None:
         """Set the values of multiple coalitions."""
         for coalition, value in values:

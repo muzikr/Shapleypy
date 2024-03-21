@@ -9,3 +9,4 @@ Players = Iterable[Player]
 
 
 Value = np.float64
+ValueInput = Value | float

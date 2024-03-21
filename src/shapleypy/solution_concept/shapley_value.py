@@ -6,7 +6,7 @@ from typing import Any
 
 import numpy as np
 
-from shapleypy._typing import Player, Value
+from shapleypy._typing import Player, Value, ValueInput
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
 from shapleypy.solution_concept._default_value import set_default_value
@@ -23,7 +23,7 @@ def _shapley_value_of_player(
     player: Player,
     weights: np.ndarray[Any, np.dtype[Value]],
     n_fac: int,
-    default_value: Value | float | None,
+    default_value: ValueInput | None,
 ) -> Value:
     coalitions_without_player = np.array(
         list(
@@ -63,7 +63,7 @@ def _shapley_value_of_player(
 
 
 def shapley_value_of_player(
-    game: Game, player: Player, default_value: Value | float | None = None
+    game: Game, player: Player, default_value: ValueInput | None = None
 ) -> Value:
     weights = _get_weights(game)
     n_fac = factorial(game.number_of_players)
@@ -71,7 +71,7 @@ def shapley_value_of_player(
 
 
 def shapley_value_of_game(
-    game: Game, default_value: Value | float | None = None
+    game: Game, default_value: ValueInput | None = None
 ) -> Iterable[Value]:
     weights = _get_weights(game)
     n_fac = factorial(game.number_of_players)
@@ -84,7 +84,7 @@ def shapley_value_of_game(
 def shapley(
     game: Game,
     player: Player | None = None,
-    default_value: Value | float | None = None,
+    default_value: ValueInput | None = None,
 ) -> Value | Iterable[Value]:
     if player is not None:
         return shapley_value_of_player(game, player, default_value)

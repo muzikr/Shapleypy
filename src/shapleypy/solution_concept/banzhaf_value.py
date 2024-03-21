@@ -4,7 +4,7 @@ from collections.abc import Iterable
 
 import numpy as np
 
-from shapleypy._typing import Player, Value
+from shapleypy._typing import Player, Value, ValueInput
 from shapleypy.coalition import Coalition
 from shapleypy.game import Game
 from shapleypy.solution_concept._default_value import set_default_value
@@ -14,7 +14,7 @@ def _banzhaf_value_of_player(
     game: Game,
     player: Player,
     factor: int,
-    default_value: Value | float | None,
+    default_value: ValueInput | None,
 ) -> Value:
     coalitions_without_player = np.array(
         list(
@@ -52,14 +52,14 @@ def _banzhaf_value_of_player(
 
 
 def banzhaf_value_of_player(
-    game: Game, player: Player, default_value: Value | float | None = None
+    game: Game, player: Player, default_value: ValueInput | None = None
 ) -> Value:
     factor = 2 ** (game.number_of_players - 1)
     return _banzhaf_value_of_player(game, player, factor, default_value)
 
 
 def banzhaf_value_of_game(
-    game: Game, default_value: Value | float | None = None
+    game: Game, default_value: ValueInput | None = None
 ) -> Iterable[Value]:
     factor = 2 ** (game.number_of_players - 1)
     for player in range(game.number_of_players):
@@ -69,7 +69,7 @@ def banzhaf_value_of_game(
 def banzhaf(
     game: Game,
     player: Player | None = None,
-    default_value: Value | float | None = None,
+    default_value: ValueInput | None = None,
 ) -> Value | Iterable[Value]:
     if player is not None:
         return banzhaf_value_of_player(game, player, default_value)
