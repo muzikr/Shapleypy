@@ -33,6 +33,8 @@ class Coalition:
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Coalition):
             return self.id == other.id
+        elif isinstance(other, Player):
+            return self.id == Coalition.from_players([other]).id
         elif isinstance(other, Iterable) and all(
             isinstance(i, Player) for i in other
         ):
@@ -45,6 +47,12 @@ class Coalition:
     def __contains__(self, other: object) -> bool:
         if isinstance(other, Player):
             return bool(self.id & (1 << other))
+        elif isinstance(other, Iterable) and all(
+            isinstance(i, Player) for i in other
+        ):
+            return (
+                self.id & Coalition.from_players(other).id
+            ) == Coalition.from_players(other).id
         elif isinstance(other, Coalition):
             return (self.id & other.id) == other.id
         return False

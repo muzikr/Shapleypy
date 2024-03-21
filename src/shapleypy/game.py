@@ -19,11 +19,13 @@ class Game:
         self._init_values()
 
     def set_value(
-        self, coalition: Coalition | Players, value: Value | float
+        self, coalition: Coalition | Players | Player, value: Value | float
     ) -> None:
         """Set the value of a coalition."""
         final_coalition = coalition
-        if isinstance(coalition, Iterable) and all(
+        if isinstance(coalition, Player):
+            final_coalition = Coalition.from_players([coalition])
+        elif isinstance(coalition, Iterable) and all(
             isinstance(i, Player) for i in coalition
         ):
             final_coalition = Coalition.from_players(coalition)
@@ -38,10 +40,12 @@ class Game:
         for coalition, value in values:
             self.set_value(coalition, value)
 
-    def get_value(self, coalition: Coalition | Players) -> Value:
+    def get_value(self, coalition: Coalition | Players | Player) -> Value:
         """Get the value of a coalition."""
         final_coalition = coalition
-        if isinstance(coalition, Iterable) and all(
+        if isinstance(coalition, Player):
+            final_coalition = Coalition.from_players([coalition])
+        elif isinstance(coalition, Iterable) and all(
             isinstance(i, Player) for i in coalition
         ):
             final_coalition = Coalition.from_players(coalition)
