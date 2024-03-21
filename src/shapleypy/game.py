@@ -4,11 +4,10 @@ from collections.abc import Iterable
 
 import numpy as np
 
-from shapleypy._typing import Player, Value
+from shapleypy._typing import Player, Players, Value
 from shapleypy.coalition import Coalition
 from shapleypy.constants import GAME_COALITION_INPUT_ERROR
 
-Players = Iterable[Player]
 Coalitions = Iterable[Coalition]
 
 

@@ -4,7 +4,7 @@ from collections.abc import Iterable
 
 import numpy as np
 
-from shapleypy._typing import Player
+from shapleypy._typing import Player, Players
 from shapleypy.constants import (
     COALITION_NUMBER_OF_PLAYERS_ERROR,
     MAX_PLAYER,
@@ -102,7 +102,7 @@ class Coalition:
         raise TypeError
 
     @staticmethod
-    def from_players(players: Iterable[Player] | Player) -> Coalition:
+    def from_players(players: Players | Player) -> Coalition:
         """Create a coalition from a list of players or a single player"""
         if isinstance(players, Player):
             players = [players]
@@ -115,7 +115,7 @@ class Coalition:
         return Coalition(id)
 
     @property
-    def get_players(self) -> Iterable[Player]:
+    def get_players(self) -> Players:
         """Return a list of players in the coalition"""
         bit_map = int(self.id)
         index = 0
