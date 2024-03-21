@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Union
 
 import numpy as np
 
@@ -9,4 +10,4 @@ Players = Iterable[Player]
 
 
 Value = np.float64
-ValueInput = Value | float
+ValueInput = Union[Value, float]
