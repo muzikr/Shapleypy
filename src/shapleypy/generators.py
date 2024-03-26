@@ -26,8 +26,18 @@ def _generate_random(
     upper_bound: int = 1,
 ) -> float:
     """
-    generator must implement random (return floats between 0 and 1)
-    and integers (returns integer between lower and uper bound) methods.
+    Combination of random generators to generate floats or integers between
+    given bounds.
+
+    Args:
+        generator (np.random.Generator): Random generator to use.
+        return_type (ReturnType): Type of the return value.
+            Either FLOAT or INTEGER.
+        lower_bound (int): Lower bound for the random number (included).
+        upper_bound (int): Upper bound for the random number (excluded).
+
+    Returns:
+        float: Random number between lower_bound and upper_bound.
     """
     return (
         generator.integers(lower_bound, upper_bound)
@@ -37,6 +47,15 @@ def _generate_random(
 
 
 def _compute_game_from_unanimity_game(unanimity_game: Game) -> Game:
+    """
+    Computes the game from the given unanimity game.
+
+    Args:
+        unanimity_game (Game): The unanimity game to compute the game from.
+
+    Returns:
+        Game: The computed game.
+    """
     game = Game(unanimity_game.number_of_players)
     for S in game.all_coalitions:
         v_S = sum(unanimity_game.get_value(T) for T in S.all_subcoalitions())
@@ -51,6 +70,21 @@ def random_game_generator(
     lower_bound: int = 0,
     upper_bound: int = 1,
 ) -> Game:
+    """
+    Generates a random game (=each coalition value is random) with values
+    between lower_bound and upper_bound.
+
+    Args:
+        number_of_players (int): The number of players in the game.
+        generator (np.random.Generator): Random generator to use.
+        return_type (ReturnType): Type of the return value.
+            Either FLOAT or INTEGER.
+        lower_bound (int): Lower bound for the random number (included).
+        upper_bound (int): Upper bound for the random number (excluded).
+
+    Returns:
+        Game: The generated game.
+    """
     game = Game(number_of_players)
 
     for S in game.all_coalitions:
@@ -69,9 +103,19 @@ def positive_game_generator(
     lower_bound: int = 0,
     upper_bound: int = 1,
 ) -> Game:
-    r"""
-    generator will be used to generate m^v(S) for all S in 2^N and the v(S) is
-    computed as \sum_{T \subseteq S} m^v(T)
+    """
+    Generates a random positive game.
+
+    Args:
+        number_of_players (int): The number of players in the game.
+        generator (np.random.Generator): Random generator to use.
+        return_type (ReturnType): Type of the return value.
+            Either FLOAT or INTEGER.
+        lower_bound (int): Lower bound for the random number (included).
+        upper_bound (int): Upper bound for the random number (excluded).
+
+    Returns:
+        Game: The generated positive game.
     """
     if lower_bound < 0:
         raise ValueError(POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR)
@@ -96,6 +140,28 @@ def convex_game_generator(
     lower_bound: int = 0,
     upper_bound: int = 1,
 ) -> Game:
+    """
+    Generates a random convex game.
+
+    WARNING: This function is not optimal and will be changed in the future.
+             Even for relatively small number_of_players it takes quite a while
+             to compute. This function requires the 'pyfmtools' package to be
+             installed and is available only on Linux for time being.
+
+    Note: The only parameter that is used is the number_of_players. The others
+          are there so all the generators have the same arguments.
+
+    Args:
+        number_of_players (int): The number of players in the game.
+        generator (np.random.Generator): Random generator to use.
+        return_type (ReturnType): Type of the return value.
+            Either FLOAT or INTEGER.
+        lower_bound (int): Lower bound for the random number (included).
+        upper_bound (int): Upper bound for the random number (excluded).
+
+    Returns:
+        Game: The generated convex game.
+    """
     try:
         import pyfmtools as fmp  # type: ignore[import-untyped]
     except ModuleNotFoundError:
@@ -127,6 +193,21 @@ def k_game_generator(
     upper_bound: int = 1,
     k: int = 1,
 ) -> Game:
+    """
+    Generates a random k-game.
+
+    Args:
+        number_of_players (int): The number of players in the game.
+        generator (np.random.Generator): Random generator to use.
+        return_type (ReturnType): Type of the return value.
+            Either FLOAT or INTEGER.
+        lower_bound (int): Lower bound for the random number (included).
+        upper_bound (int): Upper bound for the random number (excluded).
+        k (int): The parameter k for the k-game.
+
+    Returns:
+        Game: The generated k-game.
+    """
     if lower_bound < 0:
         raise ValueError(POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR)
 
@@ -156,6 +237,21 @@ def k_additive_game_generator(
     upper_bound: int = 1,
     k: int = 1,
 ) -> Game:
+    """
+    Generates a random k-additive game.
+
+    Args:
+        number_of_players (int): The number of players in the game.
+        generator (np.random.Generator): Random generator to use.
+        return_type (ReturnType): Type of the return value.
+            Either FLOAT or INTEGER.
+        lower_bound (int): Lower bound for the random number (included).
+        upper_bound (int): Upper bound for the random number (excluded).
+        k (int): The parameter k for the k-additive game.
+
+    Returns:
+        Game: The generated k-additive game.
+    """
     if lower_bound < 0:
         raise ValueError(POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR)
 
