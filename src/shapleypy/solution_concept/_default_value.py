@@ -16,6 +16,17 @@ def set_default_value(
     """
     Set the default value to the missing values in the array for solution
     concepts calculations.
+
+    Args:
+        values_array (np.ndarray): The array of values to set the default value.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Returns:
+        np.ndarray: The array with the default values set to the missing values.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
     """
     if default_value is None:
         value_to_use = DEFAULT_VALUE
