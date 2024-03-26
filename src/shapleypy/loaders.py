@@ -10,6 +10,17 @@ from shapleypy.game import Game
 
 
 def load_game_from_json(file: str) -> Game:
+    """
+    Loads a game from a JSON file.
+    To see how the file should be structured, try to save a game using the
+    savers.
+
+    Args:
+        file (str): The path to the JSON file.
+
+    Returns:
+        Game: The loaded game.
+    """
     n = None
     values = []
     with open(file) as f:
@@ -31,6 +42,21 @@ def load_game_from_json(file: str) -> Game:
 def load_game_from_csv(
     file: str, csv_separator: str = ":", coalition_separator: str = ","
 ) -> Game:
+    """
+    Loads a game from a CSV file.
+    To see how the file should be structured, try to save a game using the
+    savers.
+
+    Args:
+        file (str): The path to the CSV file.
+        csv_separator (str): The separator used in the CSV file (default is
+            compatible with savers).
+        coalition_separator (str): The separator used for the coalitions
+            (default is compatible with savers).
+
+    Returns:
+        Game: The loaded game.
+    """
     if csv_separator == coalition_separator:
         raise ValueError(CSV_SEPARATOR_ERROR)
 
