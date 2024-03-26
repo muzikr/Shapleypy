@@ -10,6 +10,15 @@ from shapleypy.game import Game
 
 
 def _prepare_game_dict(game: Game) -> dict:
+    """
+    Prepares the game to be saved to a JSON file.
+
+    Args:
+        game (Game): The game to prepare.
+
+    Returns:
+        dict: The prepared game.
+    """
     return {
         "n": game.number_of_players,
         "values": {
@@ -21,6 +30,16 @@ def _prepare_game_dict(game: Game) -> dict:
 
 
 def save_game_to_json(game: Game, filename: str) -> None:
+    """
+    Saves the game to a JSON file.
+
+    Args:
+        game (Game): The game to save.
+        filename (str): The path to the JSON file.
+
+    Returns:
+        None
+    """
     prepared_game = _prepare_game_dict(game)
 
     with open(filename, "w") as file:
@@ -33,6 +52,20 @@ def save_game_to_csv(
     csv_separator: str = ":",
     coalition_separator: str = ",",
 ) -> None:
+    """
+    Saves the game to a CSV file.
+
+    Args:
+        game (Game): The game to save.
+        filename (str): The path to the CSV file.
+        csv_separator (str): The separator to use in the CSV file (default is
+            compatible with loaders).
+        coalition_separator (str): The separator to use for the coalitions
+            (default is compatible with loaders).
+
+    Returns:
+        None
+    """
     if csv_separator == coalition_separator:
         raise ValueError(CSV_SEPARATOR_ERROR)
 
