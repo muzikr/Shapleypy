@@ -22,7 +22,15 @@ def _get_payoff(
     payoff_vector: Iterable[ValueInput],
 ) -> Value:
     """
-    Get the payoff of a coalition in a game.
+    Get the payoff of a coalition in a game (sum of payoffs of singletons in
+    given coalition).
+
+    Args:
+        coalition (Coalition): The coalition for which to get the payoff.
+        payoff_vector (Iterable[ValueInput]): The vector of payoffs.
+
+    Returns:
+        Value: The payoff of the coalition.
     """
     return np.sum(np.array(payoff_vector)[list(coalition.get_players)])
 
@@ -32,6 +40,17 @@ def _get_polyhedron_of_game(
 ) -> ppl.Polyhedron:
     """
     Get the polyhedron of a game.
+
+    Args:
+        game (Game): The game for which to get the polyhedron.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Returns:
+        ppl.Polyhedron: The polyhedron of the game.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
     """
     constrain_system = ppl.Constraint_System()
 
@@ -70,6 +89,16 @@ def _get_polyhedron_of_game(
 def _convert_point_to_vector(point: ppl.Generator) -> tuple[float]:
     """
     Convert a point to a vector.
+
+    Args:
+        point (ppl.Generator): The point to convert.
+
+    Returns:
+        tuple: The vector of the point (might be higher dimension).
+
+    Raises:
+        TypeError: If the point is not a point. Not sure if this is possible. If
+            it is, please contact the developer.
     """
     if not point.is_point():
         raise TypeError(CORE_POINT_ERROR)
@@ -86,6 +115,18 @@ def solution_in_core(
 ) -> bool:
     """
     Check if a solution is in the core of a game.
+
+    Args:
+        game (Game): The game for which to check the solution.
+        payoff_vector (Iterable[ValueInput]): The vector of payoffs.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Returns:
+        bool: True if the solution is in the core, False otherwise.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
     """
     return _get_payoff(
         Coalition.grand_coalition(game.number_of_players),
@@ -104,6 +145,17 @@ def solution_in_core(
 def is_empty(game: Game, default_value: ValueInput | None = None) -> bool:
     """
     Check if the core of a game is empty.
+
+    Args:
+        game (Game): The game for which to check the core.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Returns:
+        bool: True if the core is empty, False otherwise.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
     """
     return _get_polyhedron_of_game(game, default_value).is_empty()
 
@@ -113,6 +165,19 @@ def get_vertices(
 ) -> Iterable[tuple[float]]:
     """
     Get the vertices of the core of a game.
+
+    Args:
+        game (Game): The game for which to get the vertices.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Yields:
+        tuple: The vertices of the core of the game.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
+        TypeError: If the point is not a point. Not sure if this is possible. If
+            it is, please contact the developer
     """
     yield from (
         _convert_point_to_vector(vertex)
@@ -127,6 +192,17 @@ def contains_integer_point(
 ) -> bool:
     """
     Check if the core of a game contains an integer solution.
+
+    Args:
+        game (Game): The game for which to check the core.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Returns:
+        bool: True if the core contains an integer solution, False otherwise.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
     """
     return _get_polyhedron_of_game(game, default_value).contains_integer_point()
 
@@ -137,5 +213,16 @@ def get_core_polyhedron(
     """
     Get the polyhedron of the core of a game. Check pplpy documentation
     for more information.
+
+    Args:
+        game (Game): The game for which to get the polyhedron.
+        default_value (ValueInput | None): The default value to set to the
+            missing values (if None DEFAULT_VALUE from constants will be used).
+
+    Returns:
+        ppl.Polyhedron: The polyhedron of the core of the game.
+
+    Raises:
+        RuntimeWarning: If the default value is used and was not set by user.
     """
     return _get_polyhedron_of_game(game, default_value)
