@@ -13,6 +13,15 @@ from shapleypy.game import Game
 
 
 def _determine_k_for_k_game(game: Game) -> int:
+    """
+    Determines the k parameter for a k-game.
+
+    Args:
+        game (Game): The game to determine the k parameter for.
+
+    Returns:
+        int: The determined k parameter.
+    """
     for k in range(1, game.number_of_players + 1):
         if not all(
             game.get_value(S) == 0
@@ -26,6 +35,12 @@ def _determine_k_for_k_game(game: Game) -> int:
 def check_monotonicity(game: Game) -> bool:
     """
     Check if the game is monotone.
+
+    Args:
+        game (Game): The game to check.
+
+    Returns:
+        bool: True if the game is monotone, False otherwise.
     """
     for S in game.all_coalitions:
         # Check the values of all subcoalitions of size |S| - 1
@@ -37,6 +52,15 @@ def check_monotonicity(game: Game) -> bool:
 
 
 def check_weakly_superadditivity(game: Game) -> bool:
+    """
+    Check if the game is weakly superadditive.
+
+    Args:
+        game (Game): The game to check.
+
+    Returns:
+        bool: True if the game is weakly superadditive, False otherwise.
+    """
     grand_coalition = Coalition.grand_coalition(game.number_of_players)
     for i in range(game.number_of_players):
         value_of_i = game.get_value([i])
@@ -47,6 +71,15 @@ def check_weakly_superadditivity(game: Game) -> bool:
 
 
 def check_superadditivity(game: Game) -> bool:
+    """
+    Check if the game is superadditive.
+
+    Args:
+        game (Game): The game to check.
+
+    Returns:
+        bool: True if the game is superadditive, False otherwise.
+    """
     for T in game.all_coalitions:
         value_of_T = game.get_value(T)
         for S in filter(
@@ -58,6 +91,16 @@ def check_superadditivity(game: Game) -> bool:
 
 
 def check_convexity(game: Game, tolerance: float = 1e-5) -> bool:
+    """
+    Check if the game is convex (supermodular).
+
+    Args:
+        game (Game): The game to check.
+        tolerance (float): The tolerance for the check (floating arithmetric).
+
+    Returns:
+        bool: True if the game is convex, False otherwise.
+    """
     grand_coalition = Coalition.grand_coalition(game.number_of_players)
     # We can use just i < j, because it the condition is symmetric
     # (if we exchange i and j, we get the same condition)
@@ -73,10 +116,28 @@ def check_convexity(game: Game, tolerance: float = 1e-5) -> bool:
 
 
 def check_supermodularity(game: Game) -> bool:
+    """
+    Check if the game is convex (supermodular).
+
+    Args:
+        game (Game): The game to check.
+
+    Returns:
+        bool: True if the game is convex, False otherwise.
+    """
     return check_convexity(game)
 
 
 def check_positivity(game: Game) -> bool:
+    """
+    Check if the game is positive.
+
+    Args:
+        game (Game): The game to check.
+
+    Returns:
+        bool: True if the game is positive, False otherwise.
+    """
     for S in game.all_coalitions:
         m_S = 0
         size_of_S = len(S)
@@ -92,7 +153,14 @@ def check_k_game(
 ) -> bool:
     """
     Check if the game is a k-game.
-    If k is None program finds the k (takes some extra computation time)
+
+    Args:
+        game (Game): The game to check.
+        k (int): The parameter k for the k-game. If None, it will be determined,
+            but takes some computation time.
+
+    Returns:
+        bool: True if the game is a k-game, False otherwise.
     """
     if k is None:
         k = _determine_k_for_k_game(game)
@@ -117,6 +185,14 @@ def check_k_game(
 def check_k_additivity(game: Game, k: int, epsilon: float = 1e-10) -> bool:
     """
     Check if the game is k-additive.
+
+    Args:
+        game (Game): The game to check.
+        k (int): The parameter k for the k-additive game.
+        epsilon (float): The tolerance for the check (floating arithmetric).
+
+    Returns:
+        bool: True if the game is k-additive, False otherwise.
     """
     if not 0 < k <= game.number_of_players:
         raise ValueError(K_GAMES_PARAMETER)
@@ -135,8 +211,13 @@ def determine_class(game: Game) -> str:
     """
     Determine the class of the game from standart hierarchy.
 
-    Returns just the highest to which the game belongs.
-    (Positive, convex, superadditive, weakly superadditive, monotone, none)
+    Args:
+        game (Game): The game to determine the class for.
+
+    Returns:
+        str: The class of the game (just the highest the game belongs to).
+            (Positive, convex, superadditive, weakly superadditive, monotone,
+            none)
     """
     checks: list[tuple[str, Callable[[Game], bool]]] = [
         ("Positive", check_positivity),
