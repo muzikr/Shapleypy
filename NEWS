@@ -1,0 +1,17 @@
+0.1.0
+-----
+
+🚀 New Features
+  • Coalition representation, Game representation
+  • Computation of Banzhaf and Shapley value
+  • Core representation
+  • Game loaders and savers
+  • Class game checkers
+  • Class game generators
+  • Normalizers
+  
+💥 Breaking Changes
+  • As above
+
+🐛 Bug Fixes
+  • Nothing
