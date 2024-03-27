@@ -42,9 +42,12 @@ jobs:
     - name: Install Hatch
       run: pip install --upgrade hatch
 
+    - name: Install pip dependencies
+      run: CPPFLAGS="-std=c++11" hatch env create # For some reason eport CPPFLAGS="-std=c++11" doesn't work so doing this to install pip dependecies with c++11
+
     - if: matrix.python-version == '3.9' && runner.os == 'Linux'
       name: Type check
-      run: hatch run types:check      
+      run: hatch run types:check
 
     - if: matrix.python-version == '3.9' && runner.os == 'Linux'
       name: Lint
