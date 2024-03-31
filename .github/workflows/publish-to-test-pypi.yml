@@ -93,6 +93,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
+    if: github.ref == 'refs/heads/master'  # Run only on the master branch
     needs:
     - build
     runs-on: ubuntu-latest

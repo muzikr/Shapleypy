@@ -1,3 +1,15 @@
+0.1.3
+-----
+
+🚀 New Features
+  • Nothing
+
+💥 Breaking Changes
+  • Nothing
+
+🐛 Bug Fixes
+  • fix publishing workflow to publish to testpypi just on push to master branch
+
 0.1.2
 -----
 
