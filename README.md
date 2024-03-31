@@ -2,8 +2,8 @@
 A python library for cooperative game theory
 
 
-[![PyPI - Version](https://img.shields.io/pypi/v/Shapleypy.svg)](https://pypi.org/project/Shapleypy)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Shapleypy.svg)](https://pypi.org/project/Shapleypy)
+[![PyPI - Version](https://img.shields.io/pypi/v/shapleypy.svg)](https://pypi.org/project/shapleypy)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/shapleypy.svg)](https://pypi.org/project/shapleypy)
 ![Test](https://github.com/muzikr/Shapleypy/actions/workflows/test-master.yml/badge.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
