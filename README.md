@@ -26,11 +26,25 @@ To install latest stable version use:
 ```console
 pip install shapleypy
 ```
-To install latest development version use:
+To install latest development version you can clone the repository and use hatch (must be installed) to create an enviroment containg latest dev version:
 
+```console
+hatch shell
+```
+
+or build the project and install it to whatever enviroment you want:
+
+```bash
+hatch build
+# the wheel will be located in dist directory
+pip install $PATH_TO_WHEEL_FILE
+```
+
+<!--
 ```console
 pip install -i https://test.pypi.org/simple/ shapleypy
 ```
+-->
 
 ### Linux
 
