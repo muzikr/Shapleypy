@@ -8,7 +8,7 @@
   • Nothing
 
 🐛 Bug Fixes
-  • fix publishing workflow to publish to testpypi just on push to master branch
+  • drop testpypi (and the corresponding workflow)
   • fix links in README
 
 0.1.2
