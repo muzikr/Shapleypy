@@ -24,9 +24,9 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "pplpy==0.8.9; platform_system != 'Windows'",
-  "gmpy2==2.1.5; platform_system != 'Windows'",
-  "cysignals==1.11.4; platform_system != 'Windows'",
+  "pplpy==0.8.10; platform_system != 'Windows'",
+  "gmpy2==2.2.1; platform_system != 'Windows'",
+  "cysignals==1.12.3; platform_system != 'Windows'",
 ]
 
 [project.urls]
