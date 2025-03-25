@@ -63,10 +63,7 @@ def _get_polyhedron_of_game(
     )[0].as_integer_ratio()
     constrain_system.insert(
         ppl.Linear_Expression(
-            {
-                player: 1 * denominator
-                for player in range(game.number_of_players)
-            },
+            dict.fromkeys(range(game.number_of_players), 1 * denominator),
             0,
         )
         == numerator
@@ -78,7 +75,7 @@ def _get_polyhedron_of_game(
         )[0].as_integer_ratio()
         constrain_system.insert(
             ppl.Linear_Expression(
-                {player: 1 * denominator for player in coalition.get_players}, 0
+                dict.fromkeys(coalition.get_players, 1 * denominator), 0
             )
             >= numerator
         )

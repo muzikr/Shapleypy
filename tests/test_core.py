@@ -90,7 +90,7 @@ def test_get_vertices(
 
 
 def test_contain_integer_point(
-    game_of_three_values_non_empty_core: list[tuple[Coalition, float]]
+    game_of_three_values_non_empty_core: list[tuple[Coalition, float]],
 ) -> None:
     game = Game(3)
     game.set_values(game_of_three_values_non_empty_core)

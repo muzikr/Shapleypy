@@ -61,7 +61,7 @@ def k_game_of_three() -> list[tuple[Coalition, float]]:
 
 
 def test_check_monotonicity(
-    monotone_game_of_three: list[tuple[Coalition, float]]
+    monotone_game_of_three: list[tuple[Coalition, float]],
 ) -> None:
     game = Game(3)
     game.set_values(monotone_game_of_three)

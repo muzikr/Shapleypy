@@ -97,7 +97,7 @@ def test_set_values_from_coalition_form(
 
 
 def test_set_values_from_str_form(
-    basic_values_for_game_of_three_list_form: list[tuple[list[int], float]]
+    basic_values_for_game_of_three_list_form: list[tuple[list[int], float]],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_list_form)
@@ -118,7 +118,9 @@ def test_get_value() -> None:
 
 
 def test_get_values(
-    basic_values_for_game_of_three_coalition_form: list[tuple[Coalition, float]]
+    basic_values_for_game_of_three_coalition_form: list[
+        tuple[Coalition, float]
+    ],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_coalition_form)
@@ -217,7 +219,9 @@ def test_get_values_out_of_bounds() -> None:
 
 
 def test_eq(
-    basic_values_for_game_of_three_coalition_form: list[tuple[Coalition, float]]
+    basic_values_for_game_of_three_coalition_form: list[
+        tuple[Coalition, float]
+    ],
 ) -> None:
     game1 = Game(3)
     game2 = Game(3)

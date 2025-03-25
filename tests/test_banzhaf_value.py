@@ -39,7 +39,7 @@ def basic_values_for_game_of_three_with_missing_values() -> (
 
 
 def test_banzhaf_value_of_player(
-    basic_values_for_game_of_three: list[tuple[Coalition, float]]
+    basic_values_for_game_of_three: list[tuple[Coalition, float]],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three)
@@ -49,7 +49,7 @@ def test_banzhaf_value_of_player(
 
 
 def test_banzhaf_value_of_game(
-    basic_values_for_game_of_three: list[tuple[Coalition, float]]
+    basic_values_for_game_of_three: list[tuple[Coalition, float]],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three)
@@ -60,7 +60,7 @@ def test_banzhaf_value_of_game(
 def test_banzhaf_value_of_game_with_default_value(
     basic_values_for_game_of_three_with_missing_values: list[
         tuple[Coalition, float]
-    ]
+    ],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_with_missing_values)
@@ -70,7 +70,7 @@ def test_banzhaf_value_of_game_with_default_value(
 def test_banzhaf_value_of_game_with_default_value_warning(
     basic_values_for_game_of_three_with_missing_values: list[
         tuple[Coalition, float]
-    ]
+    ],
 ) -> None:
     """
     If user did not set the default value parameter, he probably missed a
@@ -85,7 +85,7 @@ def test_banzhaf_value_of_game_with_default_value_warning(
 def test_banzhaf_value_of_game_with_default_value_without_warning(
     basic_values_for_game_of_three_with_missing_values: list[
         tuple[Coalition, float]
-    ]
+    ],
 ) -> None:
     """
     If user set the default value parameter to the default value, he probably
@@ -103,7 +103,7 @@ def test_banzhaf_value_of_game_with_default_value_without_warning(
 def test_banzhaf_value_of_game_with_set_default_value(
     basic_values_for_game_of_three_with_missing_values: list[
         tuple[Coalition, float]
-    ]
+    ],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_with_missing_values)

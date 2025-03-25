@@ -26,7 +26,9 @@ def basic_values_for_game_of_three_coalition_form() -> (
 
 
 def test_standart_normalization(
-    basic_values_for_game_of_three_coalition_form: list[tuple[Coalition, float]]
+    basic_values_for_game_of_three_coalition_form: list[
+        tuple[Coalition, float]
+    ],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_coalition_form)
@@ -39,7 +41,9 @@ def test_standart_normalization(
 
 
 def test_zero_one_normalization(
-    basic_values_for_game_of_three_coalition_form: list[tuple[Coalition, float]]
+    basic_values_for_game_of_three_coalition_form: list[
+        tuple[Coalition, float]
+    ],
 ) -> None:
     game = Game(3)
     game.set_values(basic_values_for_game_of_three_coalition_form)
