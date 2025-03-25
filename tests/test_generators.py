@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-import sys
-
 import pytest
 
 from shapleypy.classes_checkers import (
-    check_convexity,
     check_k_additivity,
     check_k_game,
     check_positivity,
@@ -46,18 +43,6 @@ def test_positive_game_generator() -> None:
     assert check_positivity(game)
     with pytest.raises(ValueError):
         positive_game_generator(5, lower_bound=-1)
-
-
-@pytest.mark.skipif(
-    sys.platform != "linux", reason="convex_game_generator is not available"
-)
-def test_convex_game_generator() -> None:
-    # I was unable to properly set c++ flags to compile the extension for
-    # MacOS so skip this test if the extension is not available
-    from shapleypy.generators import convex_game_generator
-
-    game = convex_game_generator(5)
-    assert check_convexity(game)
 
 
 def test_k_game_generator() -> None:

@@ -30,7 +30,6 @@ CORE_WINDOWS_ERROR = """
     """
 POSITIVE_GAME_GENERATOR_LOWER_BOUND_ERROR = "lower_bound must be non-negative"
 K_GAMES_PARAMETER = "k must be between 1 and the number of players"
-CONVEX_GAME_GENERATOR_ERROR = "convex_game_generator is not available"
 
 # Warnings
 DEFAULT_VALUE_WARNING = "Warning: Unchanged default value is used in the game"
