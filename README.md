@@ -48,22 +48,8 @@ pip install -i https://test.pypi.org/simple/ shapleypy
 
 ### Linux
 
-To install this package for Linux you need to set ```$CPPFLAGS``` to contain ```-std=c++11```. This can be achieve by
 
-```bash
-export CPPFLAGS="-std=c++11 $CPPFLAGS"
-```
-> [!NOTE]
-> We know that ```CPPFLAGS``` are not meant for C++, but ```CXXFLAGS``` are not suported by setuptools.
-
-or by running the installation in form of
-
-```bash
-CPPFLAGS="-std=c++11" pip install shapleypy
-```
-not to make the standart pernament.
-
-Also there are some non-python dependencies. Those could be installed via distribution package manager.
+Few non-python dependencies have to be installed prior the installation of the __Shapleypy__. Those could be installed via distribution package manager.
 
 Ubuntu:
 ```bash
@@ -72,9 +58,6 @@ sudo apt-get install -y ppl-dev libgmp-dev libmpfr-dev libmpc-dev
 
 
 ### MacOS
-
-> [!WARNING]
-> Convex game generator is currently not available for MacOS
 
 There are some non-python requirements. These could be installed via homebrew:
 
@@ -89,7 +72,7 @@ brew install ppl gmp mpfr libmpc
 ### Windows
 
 > [!WARNING]
-> Convex game generator and core solution concept are currently not available for Windows
+> The core solution concept is currently not available for Windows.
 
 ## License
 
